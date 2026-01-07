@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>JustiPlay - Student Dashboard</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Material Symbols -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <!-- Theme Configuration -->
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#1a2c29",
+                        "surface-active": "#234842",
+                        "text-secondary": "#92c9c0",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.25rem", "lg": "0.5rem", "xl": "0.75rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* Custom scrollbar for a cleaner look in dark mode */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #10221f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #234842;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #13ecc8;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white overflow-hidden">
+    <div class="flex h-screen w-full">
+        <!-- Side Navigation -->
+        <aside class="flex w-64 flex-col border-r border-surface-active bg-[#11221f]">
+            <div class="flex flex-col gap-4 p-4 h-full">
+                <!-- Logo Area -->
+                <div class="flex flex-col mb-4 pl-2">
+                    <h1 class="text-white text-xl font-bold leading-normal tracking-tight flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">balance</span>
+                        JustiPlay
+                    </h1>
+                    <p class="text-text-secondary text-xs font-normal leading-normal mt-1">Legal Education Platform</p>
+                </div>
+                <!-- Navigation Links -->
+                <nav class="flex flex-col gap-2 flex-1">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-active border border-surface-active group"
+                        href="#">
+                        <span class="material-symbols-outlined text-primary">dashboard</span>
+                        <p class="text-white text-sm font-medium leading-normal">Dashboard</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">folder_shared</span>
+                        <p class="text-sm font-medium leading-normal">Case Files</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">model_training</span>
+                        <p class="text-sm font-medium leading-normal">Simulations</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">account_tree</span>
+                        <p class="text-sm font-medium leading-normal">Skill Tree</p>
+                    </a>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
+                        href="#">
+                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">trophy</span>
+                        <p class="text-sm font-medium leading-normal">Leaderboard</p>
+                    </a>
+                </nav>
+                <!-- Bottom Links -->
+                <div class="flex flex-col gap-2 mt-auto border-t border-surface-active pt-4">
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
+                        href="#">
+                        <span
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
+                        <p class="text-sm font-medium leading-normal">Settings</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+        <!-- Main Content Area -->
+        <main class="flex-1 flex flex-col h-full overflow-y-auto bg-background-dark relative">
+            <!-- Sticky Warning Banner -->
+            <div
+                class="sticky top-0 z-20 w-full bg-surface-active/30 backdrop-blur-md border-b border-surface-active/50">
+                <div class="max-w-[1200px] mx-auto">
+                    <p
+                        class="text-text-secondary text-xs font-medium leading-normal py-2 px-4 text-center flex items-center justify-center gap-2">
+                        <span class="material-symbols-outlined text-primary text-[16px]">school</span>
+                        Student Mode – Educational Simulation Only. Not Legal Advice.
+                    </p>
+                </div>
+            </div>
+            <!-- Top Header -->
+            <header class="flex items-center justify-between border-b border-surface-active px-8 py-4 bg-[#11221f]">
+                <!-- Search -->
+                <div class="flex flex-col min-w-[300px] max-w-[400px]">
+                    <div
+                        class="flex w-full items-center rounded-lg h-10 bg-surface-dark border border-surface-active focus-within:border-primary transition-colors">
+                        <div class="pl-3 pr-2 text-text-secondary flex items-center justify-center">
+                            <span class="material-symbols-outlined">search</span>
+                        </div>
+                        <input
+                            class="w-full bg-transparent border-none text-white text-sm placeholder:text-text-secondary focus:ring-0"
+                            placeholder="Search cases, statutes, or concepts..." />
+                    </div>
+                </div>
+                <!-- Right Actions -->
+                <div class="flex items-center gap-6">
+                    <div class="flex gap-2">
+                        <button
+                            class="flex items-center justify-center rounded-lg size-10 bg-surface-active text-white hover:bg-surface-active/80 hover:text-primary transition-colors relative">
+                            <span class="material-symbols-outlined">notifications</span>
+                            <span class="absolute top-2 right-2 size-2 bg-primary rounded-full"></span>
+                        </button>
+                        <button
+                            class="flex items-center justify-center rounded-lg size-10 bg-surface-active text-white hover:bg-surface-active/80 hover:text-primary transition-colors">
+                            <span class="material-symbols-outlined">help</span>
+                        </button>
+                    </div>
+                    <!-- Profile -->
+                    <div class="flex items-center gap-3 pl-6 border-l border-surface-active">
+                        <div class="flex flex-col items-end">
+                            <p class="text-white text-sm font-bold">Alex Mercer</p>
+                            <span
+                                class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-semibold border border-primary/20">LEARNER</span>
+                        </div>
+                        <div class="size-10 rounded-full bg-cover bg-center border-2 border-surface-active"
+                            data-alt="Portrait of a law student"
+                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0kTtxTMkUzTlrodPZvFju6q1uyt09ZkbgsI9yvDKEBAGeYUoe411zSbRCspzBtcM2b3aBJ-B_jztVEkktufgFu6bVwI5ORZ5BRTGRFJxGcqD1NCqoBiu7QT4PUPs2iDITdAXyGk3GSHQiRTRf6tF90ttBHf3QO_H5tzaaDNM53i34R0W4Ky5NDJcYnRBnDZMupupPaTv4pe0KRnlqpJ1AqcYd7F8nBfLagbZTZWlDdKQlNCn2GZghfGZfcaNV8rLXoQkknB19bKo");'>
+                        </div>
+                    </div>
+                </div>
+            </header>
+            <!-- Dashboard Content -->
+            <div class="flex-1 p-8 pb-20">
+                <div class="max-w-[1200px] mx-auto flex flex-col gap-8">
+                    <!-- Hero / Level Progression Section -->
+                    <section
+                        class="rounded-xl bg-gradient-to-r from-surface-dark to-[#162e2a] border border-surface-active p-6 shadow-lg relative overflow-hidden group">
+                        <!-- Abstract Background Decoration -->
+                        <div class="absolute right-0 top-0 h-full w-1/3 bg-gradient-to-l from-primary/5 to-transparent">
+                        </div>
+                        <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
+                            <div class="flex flex-col gap-2">
+                                <div class="flex items-center gap-3">
+                                    <h2 class="text-white text-3xl font-bold tracking-tight">Level {{ level }}: Junior Associate
+                                    </h2>
+                                    <span class="material-symbols-outlined text-primary text-3xl">verified</span>
+                                </div>
+                                <p class="text-text-secondary">Keep up the good work! You are eligible for the next
+                                    simulation tier.</p>
+                            </div>
+                            <div class="flex flex-col gap-2 min-w-[300px]">
+                                <div class="flex justify-between items-end">
+                                    <span class="text-white font-medium text-sm">Progress to Senior Associate</span>
+                                    <span class="text-primary font-bold text-lg">75%</span>
+                                </div>
+                                <div class="w-full h-3 bg-surface-active rounded-full overflow-hidden">
+                                    <div class="h-full bg-primary shadow-[0_0_10px_rgba(19,236,200,0.5)] transition-all duration-1000 ease-out"
+                                        style="width: 75%"></div>
+                                </div>
+                                <span class="text-xs text-text-secondary text-right">1,250 XP to level up</span>
+                            </div>
+                        </div>
+                    </section>
+                    <!-- Feature Cards Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                        <!-- Card 1: AI Mock Client -->
+                        <a href="/student/mock-client"
+                            class="bg-surface-dark border border-surface-active rounded-xl p-6 flex flex-col hover:border-primary/50 transition-all cursor-pointer group hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <div
+                                    class="size-12 rounded-lg bg-[#234842] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                    <span class="material-symbols-outlined text-2xl">record_voice_over</span>
+                                </div>
+                                <span class="bg-primary/10 text-primary text-xs font-bold px-2 py-1 rounded">NEW
+                                    SCENARIO</span>
+                            </div>
+                            <h3 class="text-white text-lg font-bold mb-2">AI Mock Client Practice</h3>
+                            <p class="text-text-secondary text-sm flex-1 mb-4">Interview a virtual client using voice or
+                                text. Practice your intake questions and rapport building.</p>
+                            <div class="flex items-center gap-2 mt-auto">
+                                <div class="flex -space-x-2 overflow-hidden">
+                                    <img alt="" class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-dark"
+                                        data-alt="AI Avatar Female"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDsxEaRMR7OAKfywth_O6fDBXHGMb4c1ST3ZNnyZxl1NMhNJ5NbmYoBhDt4fBNRtEwpNxsBeeBsasPmzB8_x1vEykXF3U00NX49MRU_duDhkcNA8vrFW_6FLKVmbHJsf9Ybs78fBN9sUkdKGIVrTFaCgkQEC57aCtuEqLjMExEMePFb2bKuDOWmpHIkfDuR5ghjUzFrYiJrUil2K2M3oEK6uaOAQKNOxL5SHySjrkgbrCX5vOWZSEaQXkRoC-mkahbdbYk8ojOEkug" />
+                                    <img alt="" class="inline-block h-6 w-6 rounded-full ring-2 ring-surface-dark"
+                                        data-alt="AI Avatar Male"
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuDIn4dKPS1bI_23RLJCfNDDThM_8JO-O_-zflWQhWP5jMi4KLw3oZU2vVLmMkXyqz_tY4PE0RI6AvKCAfEqjeKsIDraJcdNSeNt20f1MG_7vhK-DoFh_pxvPHnPhg3a-cbGJ8jx-elmoEBuTsc6kYkr-c-nfswoU93afRIunq3hpPBYPYD0or35Es9uFpi76Yta-vAbWw6P841yVSeWFgyLuU6kwInqJq8WgsSkdFZIjIPWqtc_UekMmEXTlPhQDL2W67D0IgOrsf4" />
+                                </div>
+                                <span class="text-xs text-text-secondary">+4 Avatars available</span>
+                            </div>
+                        </a>
+                        <!-- Card 2: Document Analysis -->
+                        <a href="/student/document-practice"
+                            class="bg-surface-dark border border-surface-active rounded-xl p-6 flex flex-col hover:border-primary/50 transition-all cursor-pointer group hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <div
+                                    class="size-12 rounded-lg bg-[#234842] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                    <span class="material-symbols-outlined text-2xl">find_in_page</span>
+                                </div>
+                            </div>
+                            <h3 class="text-white text-lg font-bold mb-2">Document Analysis</h3>
+                            <p class="text-text-secondary text-sm flex-1 mb-4">Review contracts and legal briefs to
+                                identify risks, errors, and key clauses within a time limit.</p>
+                            <div class="w-full bg-surface-active rounded h-1.5 mt-auto mb-2">
+                                <div class="bg-primary/50 h-1.5 rounded w-1/3"></div>
+                            </div>
+                            <p class="text-xs text-text-secondary">Daily Streak: 3 Days</p>
+                        </a>
+                        <!-- Card 3: Skill Feedback -->
+                        <a href="/student/feedback"
+                            class="bg-surface-dark border border-surface-active rounded-xl p-6 flex flex-col hover:border-primary/50 transition-all cursor-pointer group hover:-translate-y-1">
+                            <div class="flex items-center justify-between mb-4">
+                                <div
+                                    class="size-12 rounded-lg bg-[#234842] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
+                                    <span class="material-symbols-outlined text-2xl">insights</span>
+                                </div>
+                            </div>
+                            <h3 class="text-white text-lg font-bold mb-2">Skill Evaluation</h3>
+                            <p class="text-text-secondary text-sm flex-1 mb-4">Get detailed AI-driven feedback on your
+                                negotiation, ethics, and research skills.</p>
+                            <div class="grid grid-cols-2 gap-2 mt-auto">
+                                <div class="bg-[#11221f] rounded p-2 text-center border border-surface-active">
+                                    <p class="text-xs text-text-secondary">Ethics</p>
+                                    <p class="text-primary font-bold">A-</p>
+                                </div>
+                                <div class="bg-[#11221f] rounded p-2 text-center border border-surface-active">
+                                    <p class="text-xs text-text-secondary">Logic</p>
+                                    <p class="text-primary font-bold">B+</p>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                    <!-- Recent Cases / List View -->
+                    <div class="flex flex-col gap-4">
+                        <div class="flex items-center justify-between">
+                            <h3 class="text-white text-xl font-bold">Recent Simulations</h3>
+                            <a class="text-primary text-sm font-medium hover:underline" href="#">View All History</a>
+                        </div>
+                        <div class="bg-surface-dark border border-surface-active rounded-xl overflow-hidden">
+                            <!-- Header Row -->
+                            <div
+                                class="grid grid-cols-12 gap-4 p-4 border-b border-surface-active bg-[#1c302d] text-xs font-semibold text-text-secondary uppercase tracking-wider">
+                                <div class="col-span-5">Case Name</div>
+                                <div class="col-span-2">Type</div>
+                                <div class="col-span-2">Date</div>
+                                <div class="col-span-2">Score</div>
+                                <div class="col-span-1 text-right">Action</div>
+                            </div>
+                            <!-- Row 1 -->
+                            <div
+                                class="grid grid-cols-12 gap-4 p-4 items-center hover:bg-surface-active/30 transition-colors border-b border-surface-active/50">
+                                <div class="col-span-5 flex items-center gap-3">
+                                    <div class="bg-blue-900/30 p-2 rounded text-blue-400">
+                                        <span class="material-symbols-outlined text-lg">gavel</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">Doe v. Retail Giant</p>
+                                        <p class="text-xs text-text-secondary">Slip and fall liability assessment</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-2">
+                                    <span
+                                        class="px-2 py-1 rounded text-xs font-medium bg-purple-900/30 text-purple-300 border border-purple-800">Tort
+                                        Law</span>
+                                </div>
+                                <div class="col-span-2 text-sm text-text-secondary">Oct 24, 2023</div>
+                                <div class="col-span-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-1.5 w-16 bg-surface-active rounded-full">
+                                            <div class="h-1.5 bg-green-500 rounded-full w-[85%]"></div>
+                                        </div>
+                                        <span class="text-xs text-white">85%</span>
+                                    </div>
+                                </div>
+                                <div class="col-span-1 flex justify-end">
+                                    <button class="text-text-secondary hover:text-white">
+                                        <span class="material-symbols-outlined">navigate_next</span>
+                                    </button>
+                                </div>
+                            </div>
+                            <!-- Row 2 -->
+                            <div
+                                class="grid grid-cols-12 gap-4 p-4 items-center hover:bg-surface-active/30 transition-colors">
+                                <div class="col-span-5 flex items-center gap-3">
+                                    <div class="bg-orange-900/30 p-2 rounded text-orange-400">
+                                        <span class="material-symbols-outlined text-lg">description</span>
+                                    </div>
+                                    <div>
+                                        <p class="text-white text-sm font-medium">TechStart NDA Review</p>
+                                        <p class="text-xs text-text-secondary">Confidentiality clause analysis</p>
+                                    </div>
+                                </div>
+                                <div class="col-span-2">
+                                    <span
+                                        class="px-2 py-1 rounded text-xs font-medium bg-yellow-900/30 text-yellow-300 border border-yellow-800">Contracts</span>
+                                </div>
+                                <div class="col-span-2 text-sm text-text-secondary">Oct 22, 2023</div>
+                                <div class="col-span-2">
+                                    <div class="flex items-center gap-2">
+                                        <div class="h-1.5 w-16 bg-surface-active rounded-full">
+                                            <div class="h-1.5 bg-yellow-500 rounded-full w-[60%]"></div>
+                                        </div>
+                                        <span class="text-xs text-white">60%</span>
+                                    </div>
+                                </div>
+                                <div class="col-span-1 flex justify-end">
+                                    <button class="text-text-secondary hover:text-white">
+                                        <span class="material-symbols-outlined">navigate_next</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

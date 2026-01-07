@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{{ learner.name }} | Learner Profile</title>
+
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#13ecc8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#19332f",
+                        "border-dark": "#234842",
+                        "text-dim": "#92c9c0",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "Noto Sans", "sans-serif"]
+                    },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-dark font-display text-white min-h-screen">
+
+    <!-- Top Disclaimer -->
+    <div class="text-xs text-center py-2 bg-yellow-500/10 text-yellow-300">
+        ⚠ This interaction is for educational legal awareness only. No legal advice is provided.
+    </div>
+
+    <!-- Header -->
+    <header class="border-b border-border-dark bg-background-dark/80 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+            <div class="flex items-center gap-3">
+                <span class="material-symbols-outlined text-primary text-3xl">balance</span>
+                <h1 class="text-xl font-bold">JustiPlay</h1>
+            </div>
+
+            <a href="/citizen/dashboard" class="text-sm text-text-dim hover:text-white flex items-center gap-1">
+                <span class="material-symbols-outlined text-sm">arrow_back</span>
+                Back to Learners
+            </a>
+        </div>
+    </header>
+
+    <!-- Main Content -->
+    <main class="max-w-5xl mx-auto px-6 py-10 space-y-10">
+
+        <!-- Learner Header -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
+            <h2 class="text-3xl font-bold mb-1">
+                {{ learner.name }}
+            </h2>
+            <p class="text-text-dim text-sm">
+                Law Student · Educational Learner
+            </p>
+        </section>
+
+        <!-- About the Learner -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
+            <h3 class="text-lg font-bold mb-3">About the Learner</h3>
+            <p class="text-text-dim text-sm leading-relaxed">
+                {{ learner.about }}
+            </p>
+        </section>
+
+        <!-- Expertise Areas -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
+            <h3 class="text-lg font-bold mb-4">Expertise Areas</h3>
+            <div class="flex flex-wrap gap-3">
+                {% for skill in learner.expertise %}
+                <span
+                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 text-primary border border-primary/20 rounded-lg text-sm font-medium">
+                    {{ skill }}
+                </span>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Learning Milestones -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
+            <h3 class="text-lg font-bold mb-4">Learning Milestones</h3>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                {% for badge in learner.achievements %}
+                <div class="flex items-center gap-3 p-3 rounded-lg bg-[#11221f] border border-border-dark">
+                    <div
+                        class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
+                        <span class="material-symbols-outlined">military_tech</span>
+                    </div>
+                    <div>
+                        <p class="text-sm font-bold">{{ badge }}</p>
+                        <p class="text-[10px] text-text-dim">
+                            Verified educational milestone
+                        </p>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+        </section>
+
+        <!-- Educational Endorsements -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
+            <h3 class="text-lg font-bold mb-3">
+                Educational Endorsements
+            </h3>
+
+            <p class="text-text-dim text-sm mb-4">
+                Based on educational interactions, learners may receive endorsements
+                for clarity and explanation in specific legal domains.
+            </p>
+
+            {% if learner.endorsements %}
+            <div class="flex flex-wrap gap-3">
+                {% for domain, count in learner.endorsements.items() %}
+                <span class="px-3 py-1.5 bg-primary/5 text-primary border border-primary/20 rounded-lg text-sm">
+                    {{ domain }} · {{ count }} learners helped
+                </span>
+                {% endfor %}
+            </div>
+            {% else %}
+            <p class="text-text-dim text-sm">
+                No endorsements yet.
+            </p>
+            {% endif %}
+        </section>
+
+
+        <!-- Action Section -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6 text-center">
+            <p class="text-text-dim text-sm mb-4">
+                You may request an educational explanation from this learner under supervised conditions.
+            </p>
+
+            <button
+                class="px-6 py-3 bg-primary text-background-dark rounded-lg font-bold hover:bg-primary/90 transition">
+                Request Educational Explanation
+            </button>
+
+            <p class="text-[10px] text-text-dim mt-3">
+                This does not constitute legal advice or professional consultation.
+            </p>
+        </section>
+
+        <!-- Submit Educational Endorsement -->
+        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
+            <h3 class="text-lg font-bold mb-3">
+                Share Educational Feedback
+            </h3>
+
+            <p class="text-text-dim text-sm mb-4">
+                Help others by indicating what this learner explained clearly.
+                This feedback is educational and non-professional.
+            </p>
+
+            <form method="POST" action="/citizen/endorse/{{ learner.id }}" class="space-y-4">
+
+                <!-- Domain Selection -->
+                <div>
+                    <label class="block text-sm mb-1">Topic Explained Clearly</label>
+                    <select name="domain" required
+                        class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-2 text-sm">
+                        {% for skill in learner.expertise %}
+                        <option value="{{ skill }}">{{ skill }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
+
+                <!-- Optional Feedback -->
+                <div>
+                    <label class="block text-sm mb-1">Optional Comment</label>
+                    <textarea name="comment" rows="3" placeholder="The explanation was clear and helpful..."
+                        class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-2 text-sm"></textarea>
+                </div>
+
+                <!-- Submit -->
+                <button type="submit"
+                    class="px-5 py-2 bg-primary text-background-dark rounded-lg font-bold hover:bg-primary/90 transition">
+                    Submit Educational Feedback
+                </button>
+
+                <p class="text-[10px] text-text-dim">
+                    This does not constitute a legal review or recommendation.
+                </p>
+
+            </form>
+        </section>
+
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="border-t border-border-dark py-6 text-center text-xs text-text-dim">
+        Educational platform only · No legal advice · No professional services
+    </footer>
+
+</body>
+
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>JustiPlay - Citizen Dashboard</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com" rel="preconnect" />
+    <link crossorigin="" href="https://fonts.gstatic.com" rel="preconnect" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-light": "#f6f8f8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#162e2a",
+                        "surface-highlight": "#1c3b36",
+                    },
+                    fontFamily: {
+                        "display": ["Inter", "sans-serif"]
+                    },
+                    borderRadius: { "DEFAULT": "0.5rem", "lg": "0.75rem", "xl": "1rem", "full": "9999px" },
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .material-symbols-outlined.fill {
+            font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        /* Custom scrollbar for dark mode academic feel */
+        ::-webkit-scrollbar {
+            width: 8px;
+            height: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #10221f;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #234842;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #32675e;
+        }
+    </style>
+</head>
+
+<body class="bg-background-light dark:bg-background-dark text-slate-900 dark:text-white font-display overflow-hidden">
+    <div class="relative flex h-screen w-full flex-col">
+        <!-- Sticky Disclaimer Bar -->
+        <div class="bg-amber-500/10 border-b border-amber-500/20 py-2 px-4 text-center w-full z-50">
+            <p class="text-amber-200 text-xs font-medium tracking-wide flex items-center justify-center gap-2">
+                <span class="material-symbols-outlined text-[18px]">warning</span>
+                DISCLAIMER: This is legal awareness, not legal advice. No attorney-client relationship is formed.
+            </p>
+        </div>
+        <!-- Top Navigation -->
+        <header
+            class="flex items-center justify-between whitespace-nowrap border-b border-[#234842] px-6 py-4 bg-[#11221f]">
+            <div class="flex items-center gap-4 text-white">
+                <div class="size-8 text-primary">
+                    <svg fill="none" viewbox="0 0 48 48" xmlns="http://www.w3.org/2000/svg">
+                        <path
+                            d="M44 11.2727C44 14.0109 39.8386 16.3957 33.69 17.6364C39.8386 18.877 44 21.2618 44 24C44 26.7382 39.8386 29.123 33.69 30.3636C39.8386 31.6043 44 33.9891 44 36.7273C44 40.7439 35.0457 44 24 44C12.9543 44 4 40.7439 4 36.7273C4 33.9891 8.16144 31.6043 14.31 30.3636C8.16144 29.123 4 26.7382 4 24C4 21.2618 8.16144 18.877 14.31 17.6364C8.16144 16.3957 4 14.0109 4 11.2727C4 7.25611 12.9543 4 24 4C35.0457 4 44 7.25611 44 11.2727Z"
+                            fill="currentColor"></path>
+                    </svg>
+                </div>
+                <h2 class="text-white text-xl font-bold leading-tight tracking-tight">JustiPlay <span
+                        class="text-xs font-medium text-[#92c9c0] ml-2 px-2 py-0.5 rounded-full bg-[#234842]">Citizen</span>
+                </h2>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Gamification Balance -->
+                <div
+                    class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-full bg-[#1c3b36] border border-[#234842]">
+                    <span class="material-symbols-outlined text-primary text-[18px]">token</span>
+                    <span class="text-sm font-semibold text-white">120 Credits</span>
+                </div>
+                <div class="flex gap-2">
+                    <button
+                        class="flex size-10 items-center justify-center rounded-lg bg-surface-highlight hover:bg-[#234842] transition-colors text-white">
+                        <span class="material-symbols-outlined">notifications</span>
+                    </button>
+                    <button
+                        class="flex size-10 items-center justify-center rounded-lg bg-surface-highlight hover:bg-[#234842] transition-colors text-white">
+                        <span class="material-symbols-outlined">help</span>
+                    </button>
+                </div>
+                <div class="flex items-center gap-3 pl-4 border-l border-[#234842]">
+                    <div class="text-right hidden sm:block">
+                        <p class="text-sm font-medium text-white">Alex Citizen</p>
+                        <p class="text-xs text-[#92c9c0]">Basic Plan</p>
+                    </div>
+                    <div class="bg-center bg-no-repeat bg-cover rounded-full size-10 ring-2 ring-[#234842]"
+                        data-alt="User avatar profile picture showing a smiling person"
+                        style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuDnsvUu_aS96YVB1RRjm64DktaTm1Shim9N6ODhIuhJ8WQL21sg0KthmqKcNaBdFyMnoUBmkZlh_ogN7w0NyTkImyjig8NAy5gwzXPt-xniUP69T-mMP9obZ8wCZ4pUPWoBOCbPU-QoyyUFG26DZ4noBq274Bapjb5PwwAHeecSihqx90Gu56YXePvB6XjQh4Fcqm0Peab28tfkvZI_1vbr7lg69K1TNLvEbF2H1JBV5hTssnXuOm9185gXjgvPzctTM--fNaTJLWg");'>
+                    </div>
+                </div>
+            </div>
+        </header>
+        <div class="flex flex-1 overflow-hidden">
+            <!-- Sidebar -->
+            <nav class="hidden lg:flex w-64 flex-col justify-between border-r border-[#234842] bg-[#11221f] p-4">
+                <div class="flex flex-col gap-2">
+                    <div class="mb-6 px-2">
+                        <p class="text-xs font-bold text-[#5c8a82] uppercase tracking-wider mb-2">Main Menu</p>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-primary/10 text-primary mb-1"
+                            href="#">
+                            <span class="material-symbols-outlined fill">dashboard</span>
+                            <span class="text-sm font-semibold">Dashboard</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#1c3b36] text-[#92c9c0] hover:text-white transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">history</span>
+                            <span class="text-sm font-medium">Document History</span>
+                        </a>
+                        <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-[#1c3b36] text-[#92c9c0] hover:text-white transition-colors"
+                            href="#">
+                            <span class="material-symbols-outlined">school</span>
+                            <span class="text-sm font-medium">My Learners</span>
+                        </a>
+                    </div>
+                    <div class="px-2">
+                        <p class="text-xs font-bold text-[#5c8a82] uppercase tracking-wider mb-2">Saved Analyses</p>
+                        <div class="space-y-1">
+                            <button class="w-full text-left px-3 py-2 rounded hover:bg-[#1c3b36] group">
+                                <p class="text-sm text-gray-300 group-hover:text-white truncate">Lease_Agreement_v2.pdf
+                                </p>
+                                <p class="text-xs text-[#5c8a82]">2 days ago</p>
+                            </button>
+                            <button class="w-full text-left px-3 py-2 rounded hover:bg-[#1c3b36] group">
+                                <p class="text-sm text-gray-300 group-hover:text-white truncate">Emp_Contract_2023.docx
+                                </p>
+                                <p class="text-xs text-[#5c8a82]">Last week</p>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <div class="flex flex-col gap-2 p-2">
+                    <button
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-[#1c3b36] text-[#92c9c0] hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">settings</span>
+                        <span class="text-sm font-medium">Settings</span>
+                    </button>
+                    <button
+                        class="flex items-center gap-3 px-3 py-2 rounded-lg hover:bg-red-900/20 text-[#92c9c0] hover:text-red-400 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <span class="text-sm font-medium">Log Out</span>
+                    </button>
+                </div>
+            </nav>
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto bg-background-light dark:bg-[#10221f] p-4 lg:p-8 relative">
+                <!-- Background ambient glow -->
+                <div
+                    class="absolute top-0 left-0 w-full h-96 bg-gradient-to-b from-[#13ecc8]/5 to-transparent pointer-events-none">
+                </div>
+                <div class="max-w-6xl mx-auto space-y-8 relative z-10">
+                    <!-- Page Header -->
+                    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+                        <div>
+                            <h1 class="text-3xl md:text-4xl font-black text-white tracking-tight mb-2">Understand your
+                                legal documents</h1>
+                            <p class="text-[#92c9c0] text-lg max-w-2xl">Upload a contract or paste text to get a
+                                plain-language summary and risk assessment.</p>
+                        </div>
+                        <div class="hidden md:block">
+                            <button
+                                class="text-sm text-primary hover:text-white underline decoration-dashed underline-offset-4">View
+                                sample documents</button>
+                        </div>
+                    </div>
+                    <!-- Main Workflow Area (Split View) -->
+                    <div class="grid grid-cols-1 xl:grid-cols-12 gap-6 h-auto xl:min-h-[600px]">
+                        <!-- LEFT COLUMN: Input/Upload -->
+                        <div class="xl:col-span-5 flex flex-col gap-4">
+                            <!-- Input Card -->
+                            <div
+                                class="bg-surface-dark border border-[#234842] rounded-xl p-1 flex-1 flex flex-col shadow-lg shadow-black/20">
+                                <div
+                                    class="bg-[#11221f] rounded-lg border-2 border-dashed border-[#32675e] hover:border-primary/50 transition-colors flex flex-col items-center justify-center p-8 grow min-h-[300px] relative group cursor-pointer">
+                                    <div
+                                        class="size-16 rounded-full bg-[#1c3b36] flex items-center justify-center mb-4 group-hover:bg-[#234842] transition-colors">
+                                        <span class="material-symbols-outlined text-3xl text-primary">upload_file</span>
+                                    </div>
+                                    <p class="text-white text-lg font-bold mb-2">Upload Document</p>
+                                    <p class="text-[#92c9c0] text-sm text-center max-w-[280px] mb-6">Drag &amp; drop PDF
+                                        or DOCX files here, or click to browse your computer.</p>
+                                    <button
+                                        class="bg-primary hover:bg-[#0fd6b5] text-[#10221f] px-6 py-2.5 rounded-lg text-sm font-bold shadow-lg shadow-primary/20 transition-all transform group-hover:scale-105">
+                                        Browse Files
+                                    </button>
+                                </div>
+                                <div class="relative py-4">
+                                    <div class="absolute inset-0 flex items-center">
+                                        <div class="w-full border-t border-[#234842]"></div>
+                                    </div>
+                                    <div class="relative flex justify-center text-xs uppercase">
+                                        <span class="bg-surface-dark px-2 text-[#5c8a82]">Or paste text directly</span>
+                                    </div>
+                                </div>
+                                <div class="px-4 pb-4">
+                                    <textarea
+                                        class="w-full h-32 bg-[#10221f] border border-[#234842] rounded-lg p-3 text-sm text-gray-300 focus:ring-1 focus:ring-primary focus:border-primary outline-none resize-none placeholder-[#32675e]"
+                                        placeholder="Paste legal text clause here..."></textarea>
+                                    <div class="flex justify-end mt-2">
+                                        <button
+                                            class="text-primary text-xs font-semibold hover:text-white flex items-center gap-1">
+                                            ANALYZE TEXT <span
+                                                class="material-symbols-outlined text-sm">arrow_forward</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- RIGHT COLUMN: Output/Analysis Result -->
+                        <div class="xl:col-span-7 flex flex-col gap-4">
+                            <!-- Analysis Card -->
+                            <div
+                                class="bg-surface-dark border border-[#234842] rounded-xl flex flex-col shadow-lg shadow-black/20 h-full overflow-hidden relative">
+                                <!-- Status Header -->
+                                <div
+                                    class="bg-[#1c3b36] border-b border-[#234842] p-4 flex justify-between items-center">
+                                    <div class="flex items-center gap-3">
+                                        <div
+                                            class="size-8 rounded bg-primary/20 flex items-center justify-center text-primary">
+                                            <span class="material-symbols-outlined text-sm">article</span>
+                                        </div>
+                                        <div>
+                                            <h3 class="text-white text-sm font-bold">Residential_Lease_Agreement.pdf
+                                            </h3>
+                                            <p class="text-[10px] text-[#92c9c0] uppercase tracking-wider">Analysis
+                                                Complete</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex gap-2">
+                                        <button class="p-2 hover:bg-[#234842] rounded text-[#92c9c0] hover:text-white"
+                                            title="Download Report">
+                                            <span class="material-symbols-outlined text-lg">download</span>
+                                        </button>
+                                        <button class="p-2 hover:bg-[#234842] rounded text-[#92c9c0] hover:text-white"
+                                            title="Share">
+                                            <span class="material-symbols-outlined text-lg">share</span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Result Content -->
+                                <div class="p-6 overflow-y-auto flex-1 custom-scrollbar">
+                                    <!-- Risk Indicators -->
+                                    <div class="flex gap-4 mb-8">
+                                        <div
+                                            class="flex-1 bg-[#10221f] border border-[#234842] rounded-lg p-3 flex flex-col gap-1 items-center justify-center">
+                                            <span class="text-xs text-[#92c9c0] uppercase font-bold">Overall Risk</span>
+                                            <div class="flex items-center gap-2">
+                                                <span
+                                                    class="size-3 rounded-full bg-yellow-500 shadow shadow-yellow-500/50"></span>
+                                                <span class="text-white font-bold">Medium</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex-1 bg-[#10221f] border border-[#234842] rounded-lg p-3 flex flex-col gap-1 items-center justify-center">
+                                            <span class="text-xs text-[#92c9c0] uppercase font-bold">Readability</span>
+                                            <div class="flex items-center gap-2">
+                                                <span
+                                                    class="size-3 rounded-full bg-primary shadow shadow-primary/50"></span>
+                                                <span class="text-white font-bold">Good</span>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="flex-1 bg-[#10221f] border border-[#234842] rounded-lg p-3 flex flex-col gap-1 items-center justify-center">
+                                            <span class="text-xs text-[#92c9c0] uppercase font-bold">Clauses</span>
+                                            <span class="text-white font-bold">12 Detected</span>
+                                        </div>
+                                    </div>
+                                    <!-- Summary Block -->
+                                    <div class="space-y-6">
+                                        <div>
+                                            <h4
+                                                class="text-primary text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-lg">translate</span>
+                                                Plain English Summary
+                                            </h4>
+                                            <div class="text-gray-300 leading-relaxed text-[15px] space-y-3">
+                                                <p>
+                                                    This document is a standard residential lease agreement. It outlines
+                                                    that you are renting the property for a duration of <span
+                                                        class="text-white font-medium border-b border-dotted border-gray-500 cursor-help"
+                                                        title="Defined Term: 12 months starting Jan 1st">12
+                                                        months</span>.
+                                                </p>
+                                                <p>
+                                                    <span
+                                                        class="bg-yellow-500/20 text-yellow-200 px-1 rounded mx-[-4px]">Caution:</span>
+                                                    The lease includes an automatic renewal clause. This means unless
+                                                    you give 60 days' notice, it will renew for another year
+                                                    automatically.
+                                                </p>
+                                                <p>
+                                                    Regarding maintenance, you are responsible for minor repairs under
+                                                    $100. The landlord covers structural issues and major appliance
+                                                    failures.
+                                                </p>
+                                            </div>
+                                        </div>
+                                        <!-- Clause Breakdown -->
+                                        <div>
+                                            <h4
+                                                class="text-primary text-sm font-bold uppercase tracking-wider mb-3 flex items-center gap-2">
+                                                <span class="material-symbols-outlined text-lg">flag</span>
+                                                Key Clauses &amp; Risks
+                                            </h4>
+                                            <div class="space-y-3">
+                                                <!-- High Risk Item -->
+                                                <div
+                                                    class="bg-[#10221f] rounded-lg p-4 border-l-4 border-red-500 flex gap-4">
+                                                    <div class="mt-0.5 min-w-[24px]">
+                                                        <span
+                                                            class="material-symbols-outlined text-red-500">warning</span>
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="text-white font-bold text-sm mb-1">Indemnification
+                                                            Clause (High Risk)</h5>
+                                                        <p class="text-gray-400 text-sm">You agree to hold the landlord
+                                                            harmless for any injuries on the property, even if caused by
+                                                            their negligence.</p>
+                                                    </div>
+                                                </div>
+                                                <!-- Medium Risk Item -->
+                                                <div
+                                                    class="bg-[#10221f] rounded-lg p-4 border-l-4 border-yellow-500 flex gap-4">
+                                                    <div class="mt-0.5 min-w-[24px]">
+                                                        <span
+                                                            class="material-symbols-outlined text-yellow-500">info</span>
+                                                    </div>
+                                                    <div>
+                                                        <h5 class="text-white font-bold text-sm mb-1">Early Termination
+                                                            Fee</h5>
+                                                        <p class="text-gray-400 text-sm">Breaking the lease requires a
+                                                            fee equivalent to 2 months' rent.</p>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- CTA Footer in Card -->
+                                <div
+                                    class="bg-[#11221f] p-4 border-t border-[#234842] flex flex-col sm:flex-row items-center justify-between gap-4">
+                                    <div class="flex items-center gap-2">
+                                        <div
+                                            class="size-8 rounded-full bg-purple-500/20 flex items-center justify-center text-purple-400">
+                                            <span class="material-symbols-outlined text-sm">school</span>
+                                        </div>
+                                        <div>
+                                            <p class="text-white text-xs font-bold">Confused?</p>
+                                            <p class="text-[#5c8a82] text-[10px]">Ask a law student for clarification.
+                                            </p>
+                                        </div>
+                                    </div>
+                                    <button
+                                        class="w-full sm:w-auto flex items-center justify-center gap-2 px-4 py-2 bg-purple-600 hover:bg-purple-500 text-white rounded-lg text-sm font-semibold transition-colors">
+                                        <span>Ask a Learner</span>
+                                        <span class="bg-black/20 text-white/80 text-[10px] px-1.5 py-0.5 rounded">-50
+                                            Credits</span>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div> <!-- End Grid -->
+                    <!-- Recent Activity / Footer -->
+                    <div
+                        class="border-t border-[#234842] pt-6 pb-12 mt-8 flex flex-col md:flex-row justify-between items-center gap-4 text-sm text-[#5c8a82]">
+                        <p>© 2023 JustiPlay. All rights reserved.</p>
+                        <div class="flex gap-6">
+                            <a class="hover:text-primary transition-colors" href="#">Terms of Service</a>
+                            <a class="hover:text-primary transition-colors" href="#">Privacy Policy</a>
+                            <a class="hover:text-primary transition-colors" href="#">Legal Resources</a>
+                        </div>
+                    </div>
+                </div>
+            </main>
+        </div>
+    </div>
+</body>
+
+</html>

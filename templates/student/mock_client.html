@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8" />
+    <title>AI Mock Client | JustiPlay</title>
+
+    <!-- Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+
+    <!-- Tailwind -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#13ecc8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#19332f",
+                        "border-dark": "#234842",
+                        "text-dim": "#92c9c0",
+                    },
+                    fontFamily: {
+                        display: ["Inter", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        /* Mic pulsing animation */
+        @keyframes micPulse {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.3);
+                opacity: 0.6;
+            }
+        }
+
+        @keyframes micPulse2 {
+
+            0%,
+            100% {
+                transform: scale(1);
+                opacity: 0;
+            }
+
+            50% {
+                transform: scale(1.5);
+                opacity: 0.4;
+            }
+        }
+
+        .mic-listening .mic-pulse {
+            animation: micPulse 1.5s ease-out infinite;
+        }
+
+        .mic-listening .mic-pulse-2 {
+            animation: micPulse2 1.5s ease-out infinite 0.3s;
+        }
+
+        .mic-listening .mic-icon {
+            color: #13ecc8;
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-white font-display min-h-screen">
+
+    <!-- Header -->
+    <header class="border-b border-border-dark bg-background-dark/80 backdrop-blur sticky top-0 z-40">
+        <div class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center">
+            <h1 class="text-xl font-bold">AI Mock Client Session</h1>
+            <div class="flex items-center gap-4">
+                <span class="text-xs text-text-dim">
+                    Educational Simulation · No Legal Advice
+                </span>
+                <a href="/student/mock-client?clear=true"
+                    onclick="return confirm('Start a new session? Current conversation will be cleared.')"
+                    class="px-3 py-1.5 text-xs bg-surface-dark border border-border-dark rounded-lg hover:border-primary transition-colors">
+                    <span class="material-symbols-outlined text-sm align-middle">refresh</span>
+                    New Session
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-6xl mx-auto px-6 py-6 flex gap-6">
+
+        <!-- LEFT: Chat Area -->
+        <section class="flex-1 flex flex-col bg-surface-dark border border-border-dark rounded-xl overflow-hidden">
+
+            <!-- Client Header -->
+            <div class="flex items-center gap-4 px-6 py-4 border-b border-border-dark">
+                <div class="size-12 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xl">
+                    🤖
+                </div>
+                <div>
+                    <p class="font-bold">AI Client</p>
+                    <p class="text-xs text-text-dim">
+                        Tenant facing eviction without notice
+                    </p>
+                </div>
+            </div>
+
+            <!-- Chat Transcript -->
+            <div id="chatBox" class="flex-1 p-6 space-y-6 overflow-y-auto bg-background-dark">
+
+                <!-- Initial Client Greeting -->
+                <div class="flex items-start gap-3">
+                    <div
+                        class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm">
+                        🤖
+                    </div>
+                    <div>
+                        <p class="text-xs text-text-dim mb-1">Client</p>
+                        <div
+                            class="bg-surface-dark border border-border-dark rounded-2xl rounded-tl-sm px-4 py-2 text-sm">
+                            I'm really worried and don't know what to do...
+                        </div>
+                    </div>
+                </div>
+
+                {% for item in chat %}
+                <!-- Student Message -->
+                <div class="flex justify-end">
+                    <div class="text-right max-w-md">
+                        <p class="text-xs text-text-dim mb-1">You</p>
+                        <div
+                            class="bg-primary text-background-dark rounded-2xl rounded-br-sm px-4 py-3 text-sm font-medium">
+                            {{ item.question }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Client Reply -->
+                <div class="flex items-start gap-3">
+                    <div
+                        class="size-8 rounded-full bg-primary/20 flex items-center justify-center text-primary text-sm">
+                        🤖
+                    </div>
+                    <div class="max-w-md">
+                        <div class="flex items-center justify-between mb-1">
+                            <p class="text-xs text-text-dim">Client</p>
+                            <button onclick="speakText({{ item.reply | tojson }})"
+                                class="text-text-dim hover:text-primary transition-colors" title="Listen to reply">
+                                <span class="material-symbols-outlined text-sm">volume_up</span>
+                            </button>
+                        </div>
+                        <div class="bg-surface-dark border border-border-dark rounded-2xl rounded-tl-sm px-4 py-3 text-sm"
+                            data-client-reply="{{ item.reply }}">
+                            {{ item.reply }}
+                        </div>
+                    </div>
+                </div>
+
+                <!-- AI Evaluation -->
+                {% if item.evaluation %}
+                <div class="ml-11 bg-background-dark/50 border border-border-dark/50 rounded-lg p-3 max-w-md">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="material-symbols-outlined text-primary text-sm">psychology</span>
+                        <p class="text-xs font-bold text-primary">AI Feedback</p>
+                    </div>
+
+                    <div class="flex flex-wrap gap-2 mb-2">
+                        <!-- Clarity Badge -->
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold
+            {% if item.evaluation.clarity == 'Excellent' %}bg-green-500/20 text-green-400
+            {% elif item.evaluation.clarity == 'Good' %}bg-blue-500/20 text-blue-400
+            {% elif item.evaluation.clarity == 'Average' %}bg-yellow-500/20 text-yellow-400
+            {% else %}bg-red-500/20 text-red-400{% endif %}">
+                            Clarity: {{ item.evaluation.clarity }}
+                        </span>
+
+                        <!-- Relevance Badge -->
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold
+            {% if item.evaluation.relevance == 'High' %}bg-green-500/20 text-green-400
+            {% elif item.evaluation.relevance == 'Medium' %}bg-yellow-500/20 text-yellow-400
+            {% else %}bg-red-500/20 text-red-400{% endif %}">
+                            Relevance: {{ item.evaluation.relevance }}
+                        </span>
+
+                        <!-- Ethics Badge -->
+                        <span class="px-2 py-0.5 rounded-full text-[10px] font-semibold
+            {% if item.evaluation.ethics == 'Safe' %}bg-green-500/20 text-green-400
+            {% else %}bg-orange-500/20 text-orange-400{% endif %}">
+                            Ethics: {{ item.evaluation.ethics }}
+                        </span>
+                    </div>
+
+                    <p class="text-xs text-text-dim italic leading-relaxed">{{ item.evaluation.feedback }}</p>
+                </div>
+                {% endif %}
+                {% endfor %}
+
+            </div>
+
+            <!-- Input Dock -->
+            <div class="border-t border-border-dark p-4 bg-surface-dark">
+                <form id="questionForm" method="POST" action="/student/mock-client" class="flex items-center gap-3">
+                    <input type="text" id="questionInput" name="question" placeholder="Ask the client a question…"
+                        class="flex-1 bg-background-dark border border-border-dark rounded-lg px-4 py-2 text-sm focus:outline-none focus:border-primary"
+                        required />
+
+                    <!-- Mic Button with Animation -->
+                    <button type="button" id="micBtn"
+                        class="size-10 rounded-lg bg-background-dark border border-border-dark flex items-center justify-center hover:border-primary transition-all relative"
+                        title="Speak">
+                        <span class="material-symbols-outlined mic-icon">mic</span>
+                        <!-- Pulsing animation rings -->
+                        <span class="mic-pulse absolute inset-0 rounded-lg border-2 border-primary opacity-0"></span>
+                        <span class="mic-pulse-2 absolute inset-0 rounded-lg border-2 border-primary opacity-0"></span>
+                    </button>
+
+                    <!-- Send Button -->
+                    <button type="submit" id="sendBtn"
+                        class="px-5 py-2 bg-primary text-background-dark rounded-lg font-bold hover:bg-primary/90 transition-all disabled:opacity-50 disabled:cursor-not-allowed">
+                        <span id="sendBtnText">Send</span>
+                    </button>
+                </form>
+
+                <!-- Loading Indicator -->
+                <div id="loadingIndicator" class="hidden mt-3 flex items-center gap-2 text-xs text-text-dim">
+                    <div class="animate-spin size-4 border-2 border-primary border-t-transparent rounded-full"></div>
+                    <span>AI is thinking...</span>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- RIGHT: Evaluation Panel -->
+        <aside
+            class="w-auto max-w-sm bg-surface-dark border border-border-dark rounded-xl p-5 space-y-4 self-start sticky top-20">
+            <div>
+                <h3 class="font-bold mb-3 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-primary">insights</span>
+                    Session Insights
+                </h3>
+
+                <p class="text-xs text-text-dim mb-4">
+                    Live educational feedback based on your questioning style.
+                </p>
+            </div>
+
+            <!-- Session Stats -->
+            <div class="bg-background-dark/50 border border-border-dark/50 rounded-lg p-3">
+                <p class="text-xs text-text-dim mb-2">Session Progress</p>
+                <div class="flex items-baseline gap-2">
+                    <span class="text-2xl font-bold text-primary">{{ chat|length }}</span>
+                    <span class="text-xs text-text-dim">questions asked</span>
+                </div>
+            </div>
+
+            <!-- Case Scenario -->
+            <div class="bg-background-dark/50 border border-border-dark/50 rounded-lg p-3">
+                <p class="text-xs font-bold text-primary mb-2">📋 Case Scenario</p>
+                <p class="text-xs text-text-dim leading-relaxed">
+                    A tenant claims their landlord is forcing them to vacate without notice and has stopped basic
+                    services.
+                </p>
+            </div>
+
+            <!-- Best Practices -->
+            <div>
+                <p class="text-xs font-bold mb-2">💡 Best Practices</p>
+                <ul class="text-xs space-y-2 text-text-dim">
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✓</span>
+                        <span>Ask open-ended questions</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✓</span>
+                        <span>Focus on facts, not opinions</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✓</span>
+                        <span>Avoid suggesting legal actions</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✓</span>
+                        <span>Use clear, neutral language</span>
+                    </li>
+                    <li class="flex items-start gap-2">
+                        <span class="text-green-400 mt-0.5">✓</span>
+                        <span>Show empathy and professionalism</span>
+                    </li>
+                </ul>
+            </div>
+
+            <div class="pt-4 border-t border-border-dark">
+                <p class="text-[10px] text-text-dim leading-relaxed">
+                    ⚠️ Educational simulation only. Evaluation is for learning purposes, not professional assessment.
+                </p>
+            </div>
+        </aside>
+
+    </main>
+
+    <!-- Speech-to-Text & AJAX Form Submission -->
+    <script>
+        const micBtn = document.getElementById("micBtn");
+        const questionInput = document.getElementById("questionInput");
+        const questionForm = document.getElementById("questionForm");
+        const sendBtn = document.getElementById("sendBtn");
+        const sendBtnText = document.getElementById("sendBtnText");
+        const loadingIndicator = document.getElementById("loadingIndicator");
+        const chatBox = document.getElementById("chatBox");
+
+        // Auto-scroll to bottom on page load
+        if (chatBox) {
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            // Auto-speak the latest client reply if there are messages
+            const chatLength = {{ chat| length
+        }};
+        if (chatLength > 0) {
+            const lastReply = {{ chat[-1].reply | tojson if chat | length > 0 else '""'
+        }};
+        if (lastReply) {
+            setTimeout(() => speakText(lastReply), 500);
+        }
+            }
+        }
+
+        // AJAX Form Submission for Instant Responses
+        questionForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+
+            const question = questionInput.value.trim();
+            if (!question) return;
+
+            // Disable form
+            questionInput.disabled = true;
+            sendBtn.disabled = true;
+            sendBtnText.textContent = 'Sending...';
+            loadingIndicator.classList.remove('hidden');
+
+            try {
+                // Send AJAX request
+                const formData = new FormData();
+                formData.append('question', question);
+
+                const response = await fetch('/student/mock-client', {
+                    method: 'POST',
+                    body: formData
+                });
+
+                if (response.ok) {
+                    const html = await response.text();
+
+                    // Parse the response to extract the new messages
+                    const parser = new DOMParser();
+                    const doc = parser.parseFromString(html, 'text/html');
+                    const newChatBox = doc.getElementById('chatBox');
+
+                    if (newChatBox) {
+                        // Replace chat content
+                        chatBox.innerHTML = newChatBox.innerHTML;
+
+                        // Scroll to bottom
+                        chatBox.scrollTop = chatBox.scrollHeight;
+
+                        // Get the latest reply and speak it
+                        const allReplies = chatBox.querySelectorAll('[data-client-reply]');
+                        if (allReplies.length > 0) {
+                            const latestReply = allReplies[allReplies.length - 1].getAttribute('data-client-reply');
+                            setTimeout(() => speakText(latestReply), 300);
+                        }
+
+                        // Update session stats in sidebar
+                        const newStats = doc.querySelector('.text-2xl.font-bold.text-primary');
+                        const currentStats = document.querySelector('.text-2xl.font-bold.text-primary');
+                        if (newStats && currentStats) {
+                            currentStats.textContent = newStats.textContent;
+                        }
+                    }
+
+                    // Clear input
+                    questionInput.value = '';
+                }
+            } catch (error) {
+                console.error('Error:', error);
+                alert('Failed to send message. Please try again.');
+            } finally {
+                // Re-enable form
+                questionInput.disabled = false;
+                sendBtn.disabled = false;
+                sendBtnText.textContent = 'Send';
+                loadingIndicator.classList.add('hidden');
+                questionInput.focus();
+            }
+        });
+
+        // Speech Recognition with Animation
+        const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+
+        if (SpeechRecognition) {
+            const recognition = new SpeechRecognition();
+            recognition.lang = "en-IN";
+            recognition.continuous = false;
+            recognition.interimResults = false;
+
+            let isListening = false;
+
+            micBtn.onclick = () => {
+                if (!isListening) {
+                    try {
+                        recognition.start();
+                        isListening = true;
+
+                        // Add animation class
+                        micBtn.classList.add("mic-listening", "border-primary", "bg-primary/10");
+                    } catch (error) {
+                        console.error('Speech recognition error:', error);
+                        isListening = false;
+                    }
+                }
+            };
+
+            recognition.onresult = (event) => {
+                questionInput.value = event.results[0][0].transcript;
+                isListening = false;
+                micBtn.classList.remove("mic-listening", "border-primary", "bg-primary/10");
+            };
+
+            recognition.onerror = (event) => {
+                console.error('Recognition error:', event.error);
+                isListening = false;
+                micBtn.classList.remove("mic-listening", "border-primary", "bg-primary/10");
+            };
+
+            recognition.onend = () => {
+                isListening = false;
+                micBtn.classList.remove("mic-listening", "border-primary", "bg-primary/10");
+            };
+        } else {
+            micBtn.style.display = "none";
+        }
+
+        // Auto-focus input on page load
+        if (questionInput) {
+            questionInput.focus();
+        }
+
+        // Text-to-Speech Function
+        function speakText(text) {
+            if (!window.speechSynthesis) return;
+
+            const utterance = new SpeechSynthesisUtterance(text);
+            utterance.lang = "en-IN";
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+            utterance.volume = 1;
+
+            // Try to pick a natural voice if available
+            const voices = speechSynthesis.getVoices();
+            const preferredVoice = voices.find(v =>
+                v.lang.includes("en") && v.name.toLowerCase().includes("female")
+            );
+            if (preferredVoice) {
+                utterance.voice = preferredVoice;
+            }
+
+            speechSynthesis.cancel();
+            speechSynthesis.speak(utterance);
+        }
+
+        // Load voices (needed for some browsers)
+        if (window.speechSynthesis) {
+            speechSynthesis.getVoices();
+            window.speechSynthesis.onvoiceschanged = () => {
+                speechSynthesis.getVoices();
+            };
+        }
+    </script>
+
+</body>
+
+</html>

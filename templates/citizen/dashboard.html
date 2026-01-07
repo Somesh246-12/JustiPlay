@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Citizen Dashboard</title>
+</head>
+<body>
+
+<h1>Available Learners</h1>
+<p>Select a learner to understand legal processes.</p>
+
+<ul>
+  {% for learner in learners %}
+    <li>
+      <strong>{{ learner.name }}</strong> —
+      {{ learner.domain }} |
+      Level: {{ learner.level }} |
+      Achievements: {{ learner.achievements }}
+
+      <a href="/citizen/learner/{{ learner.id }}">
+        View Profile
+      </a>
+    </li>
+  {% endfor %}
+</ul>
+
+<a href="/citizen/document-analysis">
+  Go to Document Analysis
+</a>
+
+</body>
+</html>
