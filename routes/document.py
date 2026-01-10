@@ -75,6 +75,10 @@ def upload():
 @document_bp.route("/analyze", methods=["POST"])
 def analyze():
     """Process uploaded document and display analysis results."""
+    from flask import session
+    from services.storage_service import upload_document
+    from services.firestore_service import create_document, get_user, create_user
+    
     file = request.files.get("doc")
     if not file:
         flash("Please select a document to upload.", "error")
@@ -115,6 +119,53 @@ def analyze():
     except Exception as e:
         print(f"⚠️ PDF generation failed: {e}")
         # Continue anyway, user can still see web results
+
+    # ========== FIREBASE INTEGRATION ==========
+    try:
+        # Get user ID from session (or create a default one)
+        user_id = session.get("user_id", "default_user")
+        username = session.get("full_name", "Anonymous User")
+        
+        # Ensure user exists in Firestore
+        user = get_user(user_id)
+        if not user:
+            create_user(user_id, username, role="citizen")
+        
+        # Try to upload to Cloud Storage (optional)
+        file_url = None
+        try:
+            # Reset file pointer for upload
+            file.seek(0)
+            storage_result = upload_document(file, user_id, file.filename)
+            file_url = storage_result['file_url']
+            print(f"✅ File uploaded to Cloud Storage")
+        except Exception as storage_error:
+            print(f"⚠️ Cloud Storage upload failed: {storage_error}")
+            # Use local PDF path as fallback
+            file_url = f"/document/download_pdf/{doc_id}"
+        
+        # Extract risk data
+        risk_flags = [clause.get('text', '')[:100] for clause in result.get('clauses', []) if clause.get('risk') in ['High', 'Critical']]
+        risk_score = result.get('overall_risk_score', 50)
+        
+        # Save to Firestore (even if storage failed)
+        firestore_doc_id = create_document(
+            owner_id=user_id,
+            title=file.filename or "Untitled Document",
+            summary=result.get('summary', 'No summary available')[:500],
+            risk_flags=risk_flags[:5],  # Limit to 5 flags
+            risk_score=risk_score,
+            file_url=file_url
+        )
+        
+        print(f"✅ Document saved to Firestore: {firestore_doc_id}")
+        
+        # Store Firestore doc ID in session for later retrieval
+        session['last_doc_id'] = firestore_doc_id
+        
+    except Exception as e:
+        print(f"⚠️ Firebase save failed: {e}")
+        # Continue anyway - analysis still works without Firebase
 
     return render_template(
         "citizen/analysis_result.html",

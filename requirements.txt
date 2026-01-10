@@ -61,3 +61,4 @@ opencv-python-headless
 numpy
 pdf2image
 xhtml2pdf
+firebase-admin

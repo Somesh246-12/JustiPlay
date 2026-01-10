@@ -150,30 +150,48 @@ def profile():
 
 
 # -------------------------------------------------
-# AI Mock Client (TEXT-BASED MVP)
+# AI Mock Client (Dynamic & Leveled)
 # -------------------------------------------------
 @student_bp.route("/mock-client", methods=["GET", "POST"])
 def mock_client():
     if session.get("role") != "student":
         return redirect(url_for("auth.login"))
 
-    # Clear session if requested
+    # Handle "End Session" or "New Case"
     if request.args.get("clear") == "true":
-        session["mock_chat"] = []
+        session.pop("mock_chat", None)
+        session.pop("current_scenario", None)
         session.modified = True
         return redirect(url_for("student.mock_client"))
 
-    # Initialize conversation memory
-    if "mock_chat" not in session:
-        session["mock_chat"] = []
+    # Initialize Scenario Logic
+    if "current_scenario" not in session:
+        import random
+        from services.ai.scenarios_data import get_scenarios_for_level
+        
+        # Get level
+        xp = session.get("student_xp", 0)
+        stats = get_student_stats(xp)
+        
+        # Select random scenario
+        scenarios = get_scenarios_for_level(stats["level_name"])
+        selected = random.choice(scenarios)
+        
+        session["current_scenario"] = selected
+        session["mock_chat"] = [] # Clear chat for new scenario
+        session.modified = True
+
+    scenario = session["current_scenario"]
 
     if request.method == "POST":
         question = request.form.get("question", "").strip()
 
         if question:
+            # Pass scenario context to AI
             reply = get_client_reply(
-                conversation_history=session["mock_chat"],
-                student_question=question
+                conversation_history=session.get("mock_chat", []),
+                student_question=question,
+                scenario_context=scenario
             )
 
             evaluation = evaluate_student_question(question)
@@ -184,31 +202,41 @@ def mock_client():
                 "reply": reply,
                 "evaluation": evaluation
             })
-
+            
             # Initialize history if not exists
             if "student_history" not in session:
                 session["student_history"] = []
 
-            # Calculate XP based on evaluation
-            earned_score = evaluation.get("total_score", 50)
-            xp_reward = int(earned_score * 0.5) # Max 50 XP per prompt for now
-            
-            # Save to history
-            session["student_history"].insert(0, {
-                "case_name": "AI Consultation: " + question[:20] + "...",
-                "type": "Mock Client",
-                "date": "Today",
-                "score": earned_score,
-                "xp_earned": xp_reward
-            })
+            # Calculate XP: Higher reward for harder scenarios
+            base_score = evaluation.get("total_score", 50)
+            difficulty_mult = {
+                "Easy": 0.5,
+                "Medium": 0.8,
+                "Hard": 1.2,
+                "Expert": 1.5,
+                "Legendary": 2.0
+            }.get(scenario.get("difficulty", "Easy"), 0.5)
 
-            # Award XP
+            xp_reward = int(base_score * 0.1 * difficulty_mult) 
+            
+            # Only log significant interactions to history to avoid clutter
+            if len(session["mock_chat"]) % 5 == 0:
+                session["student_history"].insert(0, {
+                    "case_name": f"Session: {scenario['title']}",
+                    "type": "Mock Client",
+                    "date": "Today",
+                    "score": base_score,
+                    "xp_earned": xp_reward
+                })
+            
+            # Award XP immediately
             session["student_xp"] = session.get("student_xp", 0) + xp_reward
             session.modified = True
 
     return render_template(
         "student/mock_client.html", 
-        chat=session["mock_chat"],
+        chat=session.get("mock_chat", []),
+        scenario=scenario,
         user_context={
             "full_name": session.get("full_name", "Alex Mercer"),
             "username": session.get("username", "alex_mercer"),
@@ -274,6 +302,12 @@ def document_drafting():
             )
     
     # GET request - show drafting form
+    from services.ai.scenarios_data import get_drafting_task_for_level
+    
+    xp = session.get("student_xp", 0)
+    stats = get_student_stats(xp)
+    recommended_task = get_drafting_task_for_level(stats["level_name"])
+    
     return render_template(
         "student/document_drafting.html",
         user_context={
@@ -281,8 +315,9 @@ def document_drafting():
             "username": session.get("username", "alex_mercer"),
             "user_id": session.get("user_id", "USR001")
         },
-        stats=get_student_stats(session.get("student_xp", 0)),
-        history=session.get("student_history", [])[:5]
+        stats=stats,
+        history=session.get("student_history", [])[:5],
+        recommended_task=recommended_task
     )
 
 
@@ -316,4 +351,3 @@ def evaluation():
         },
         history=history[:10]
     )
-

@@ -12,3 +12,9 @@ Thumbs.db
 
 # Secret credentials
 credentials.json
+config/firebase_admin.json
+.env
+
+# Temporary files
+tmp_docs/
+*.pdf

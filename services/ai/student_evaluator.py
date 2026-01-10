@@ -89,7 +89,20 @@ Be encouraging and constructive."""
         model = genai.GenerativeModel("gemini-2.0-flash-exp")
         response = model.generate_content(prompt)
         
-        result = eval(response.text)
+        # safe JSON parsing
+        import json
+        text = response.text.strip()
+        if text.startswith("```json"):
+            text = text[7:-3].strip()
+        elif text.startswith("```"):
+            text = text[3:-3].strip()
+            
+        try:
+            result = json.loads(text)
+        except json.JSONDecodeError:
+            print("Failed to parse JSON, falling back to eval")
+            # Fallback for lenient parsing (e.g. single quotes)
+            result = eval(text)
         return result
         
     except Exception as e:

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{{ document.title }} | JustiPlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#1a2c29",
+                        "surface-active": "#234842",
+                        "text-secondary": "#92c9c0",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-dark text-white font-display min-h-screen">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="flex w-64 flex-col border-r border-surface-active bg-[#11221f]">
+            <div class="p-4 h-full flex flex-col gap-4">
+                <div class="flex items-center gap-2 mb-4 pl-2">
+                    <span class="material-symbols-outlined text-primary text-3xl">balance</span>
+                    <div>
+                        <h1 class="text-white text-xl font-bold">JustiPlay</h1>
+                        <p class="text-text-secondary text-xs">Citizen Portal</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2 flex-1">
+                    <a href="/citizen/dashboard"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                        <p class="text-sm font-medium">Dashboard</p>
+                    </a>
+                    <a href="/document/upload"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">upload_file</span>
+                        <p class="text-sm font-medium">Document Analysis</p>
+                    </a>
+                    <a href="/citizen/library"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">folder</span>
+                        <p class="text-sm font-medium">Document Library</p>
+                    </a>
+                </nav>
+                <div class="mt-auto border-t border-surface-active pt-4">
+                    <a href="/logout"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-900/30 text-red-400 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Sign Out</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-background-dark">
+            <header class="flex items-center justify-between border-b border-surface-active px-10 py-5 bg-[#11221f]">
+                <div class="flex items-center gap-4">
+                    <a href="/citizen/library" class="text-text-secondary hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold">Document Analysis</h1>
+                        <p class="text-text-secondary text-sm">{{ document.title }}</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end">
+                        <p class="text-white text-sm font-bold">{{ user_context.full_name }}</p>
+                        <p class="text-[10px] text-text-secondary">Citizen</p>
+                    </div>
+                    <div class="size-10 rounded-full border-2 border-primary bg-cover bg-center"
+                        style='background-image: url("https://ui-avatars.com/api/?name={{ user_context.full_name }}&background=13ecc8&color=10221f");'>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-7xl mx-auto space-y-6">
+                <!-- Document Info Card -->
+                <div
+                    class="bg-gradient-to-r from-surface-dark to-[#162e2a] border border-surface-active rounded-xl p-6">
+                    <div class="flex items-start justify-between gap-6">
+                        <div class="flex-1">
+                            <div class="flex items-center gap-3 mb-3">
+                                <span class="material-symbols-outlined text-primary text-3xl">description</span>
+                                <h2 class="text-2xl font-bold">{{ document.title }}</h2>
+                            </div>
+
+                            <div class="grid grid-cols-2 gap-4 mb-4">
+                                <div>
+                                    <p class="text-xs text-text-secondary mb-1">Uploaded</p>
+                                    <p class="text-sm font-semibold">{{ document.uploaded_at.strftime('%B %d, %Y at
+                                        %I:%M %p') if document.uploaded_at else 'Unknown' }}</p>
+                                </div>
+                                <div>
+                                    <p class="text-xs text-text-secondary mb-1">Risk Score</p>
+                                    {% if document.risk_score >= 70 %}
+                                    <p class="text-lg font-bold text-red-400">{{ document.risk_score }}/100 - High Risk
+                                    </p>
+                                    {% elif document.risk_score >= 40 %}
+                                    <p class="text-lg font-bold text-yellow-400">{{ document.risk_score }}/100 - Medium
+                                        Risk</p>
+                                    {% else %}
+                                    <p class="text-lg font-bold text-green-400">{{ document.risk_score }}/100 - Low Risk
+                                    </p>
+                                    {% endif %}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col gap-2">
+                            <a href="{{ document.file_url }}" target="_blank"
+                                class="px-6 py-3 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all text-center whitespace-nowrap">
+                                <span class="material-symbols-outlined text-sm align-middle">download</span>
+                                Download PDF
+                            </a>
+                            <a href="/citizen/library"
+                                class="px-6 py-3 bg-surface-active text-white font-bold rounded-lg hover:bg-surface-active/80 transition-all text-center whitespace-nowrap">
+                                Back to Library
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Summary -->
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">summarize</span>
+                        Document Summary
+                    </h3>
+                    <p class="text-text-secondary leading-relaxed">{{ document.summary }}</p>
+                </div>
+
+                <!-- Risk Flags -->
+                {% if document.risk_flags %}
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-red-400">warning</span>
+                        Identified Risk Flags
+                    </h3>
+                    <div class="space-y-3">
+                        {% for flag in document.risk_flags %}
+                        <div class="bg-red-500/10 border border-red-500/30 rounded-lg p-4">
+                            <div class="flex items-start gap-3">
+                                <span class="material-symbols-outlined text-red-400 mt-0.5">error</span>
+                                <p class="text-sm text-red-200">{{ flag }}</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Recommendations -->
+                <div class="bg-gradient-to-r from-primary/10 to-teal-400/10 border border-primary/30 rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">lightbulb</span>
+                        Recommendations
+                    </h3>
+                    <ul class="space-y-3">
+                        {% if document.risk_score >= 70 %}
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Consult with a legal professional immediately regarding the high-risk
+                                clauses identified.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Do not sign this document without legal review and advice.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Request modifications to the problematic clauses before
+                                proceeding.</span>
+                        </li>
+                        {% elif document.risk_score >= 40 %}
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Review the flagged clauses carefully and consider seeking legal
+                                advice.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Request clarification on any unclear terms before signing.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Ensure you understand all obligations and rights outlined in the
+                                document.</span>
+                        </li>
+                        {% else %}
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">This document appears to have low risk, but always read thoroughly
+                                before signing.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">Keep a copy of the signed document for your records.</span>
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span class="text-primary mt-1">•</span>
+                            <span class="text-sm">If you have any questions, don't hesitate to seek
+                                clarification.</span>
+                        </li>
+                        {% endif %}
+                    </ul>
+                </div>
+
+                <!-- Action Buttons -->
+                <div class="flex gap-4">
+                    <a href="/citizen/library"
+                        class="flex-1 bg-surface-dark border border-surface-active text-white font-bold py-4 rounded-lg hover:bg-surface-active transition-all text-center">
+                        ← Back to Library
+                    </a>
+                    <a href="/document/upload"
+                        class="flex-1 bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold py-4 rounded-lg hover:from-primary/90 hover:to-teal-400/90 transition-all text-center">
+                        Analyze Another Document
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

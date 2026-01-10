@@ -130,6 +130,28 @@
                     </div>
                 </div>
 
+                <!-- Daily Challenge -->
+                {% if recommended_task %}
+                <div
+                    class="bg-gradient-to-r from-purple-500/10 to-blue-500/10 border border-purple-500/30 rounded-xl p-6 mb-1">
+                    <div class="flex items-center justify-between gap-4">
+                        <div>
+                            <h2
+                                class="text-sm font-bold mb-1 flex items-center gap-2 text-purple-300 uppercase tracking-wider">
+                                <span class="material-symbols-outlined text-sm">emoji_events</span>
+                                Daily Challenge: {{ stats.level_name }}
+                            </h2>
+                            <p class="text-white font-medium text-lg leading-tight">{{ recommended_task }}</p>
+                        </div>
+                        <button
+                            onclick="document.querySelector('textarea').value = 'Drafting Task: {{ recommended_task|replace("'", "\\'") }}\n\n' + document.querySelector('textarea').value; document.querySelector('textarea').focus();"
+                            class="whitespace-nowrap px-4 py-2 bg-purple-500/20 hover:bg-purple-500/40 text-purple-300 rounded-lg text-sm font-bold border border-purple-500/30 transition-all">
+                            Accept Challenge
+                        </button>
+                    </div>
+                </div>
+                {% endif %}
+
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
                     <!-- Drafting Form -->
                     <div class="lg:col-span-2">

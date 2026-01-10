@@ -265,3 +265,78 @@ def endorse_learner(learner_id):
     # - Attach to learner profile
 
     return redirect(url_for("citizen.learner_profile", learner_id=learner_id))
+
+
+# -------------------------------------------------
+# Document Library (Firebase Integration)
+# -------------------------------------------------
+@citizen_bp.route("/library")
+def document_library():
+    """Display user's document library with filtering and sorting"""
+    if session.get("role") != "citizen":
+        return redirect(url_for("auth.login"))
+    
+    from services.firestore_service import get_user_documents
+    
+    # Get filter parameters
+    sort_by = request.args.get('sort', 'newest')
+    search_query = request.args.get('search', '').strip()
+    risk_filter = request.args.get('risk', None)
+    
+    # Get user ID
+    user_id = session.get("user_id", "default_user")
+    
+    # Fetch documents from Firestore
+    try:
+        documents = get_user_documents(
+            owner_id=user_id,
+            sort_by=sort_by,
+            search_query=search_query if search_query else None,
+            risk_filter=risk_filter
+        )
+    except Exception as e:
+        print(f"⚠️ Error fetching documents: {e}")
+        documents = []
+    
+    return render_template(
+        "citizen/document_library.html",
+        documents=documents,
+        sort_by=sort_by,
+        search_query=search_query,
+        risk_filter=risk_filter,
+        user_context={
+            "full_name": session.get("full_name", "Anonymous Citizen"),
+            "username": session.get("username", "citizen_user")
+        }
+    )
+
+
+@citizen_bp.route("/document/<doc_id>")
+def view_document(doc_id):
+    """View individual document analysis"""
+    if session.get("role") != "citizen":
+        return redirect(url_for("auth.login"))
+    
+    from services.firestore_service import get_document
+    
+    try:
+        document = get_document(doc_id)
+        if not document:
+            return "Document not found", 404
+        
+        # Verify ownership
+        user_id = session.get("user_id", "default_user")
+        if document.get('ownerId') != user_id:
+            return "Unauthorized", 403
+        
+        return render_template(
+            "citizen/view_analysis.html",
+            document=document,
+            user_context={
+                "full_name": session.get("full_name", "Anonymous Citizen"),
+                "username": session.get("username", "citizen_user")
+            }
+        )
+    except Exception as e:
+        print(f"⚠️ Error fetching document: {e}")
+        return "Error loading document", 500

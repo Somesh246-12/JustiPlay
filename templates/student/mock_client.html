@@ -86,10 +86,10 @@
                     Educational Simulation · No Legal Advice
                 </span>
                 <a href="/student/mock-client?clear=true"
-                    onclick="return confirm('Start a new session? Current conversation will be cleared.')"
-                    class="px-3 py-1.5 text-xs bg-surface-dark border border-border-dark rounded-lg hover:border-primary transition-colors">
-                    <span class="material-symbols-outlined text-sm align-middle">refresh</span>
-                    New Session
+                    onclick="return confirm('End this session and get evaluation?')"
+                    class="px-3 py-1.5 text-xs bg-surface-dark border border-border-dark rounded-lg hover:border-red-500 hover:text-red-400 transition-colors">
+                    <span class="material-symbols-outlined text-sm align-middle">logout</span>
+                    End Session
                 </a>
             </div>
         </div>
@@ -106,9 +106,9 @@
                     🤖
                 </div>
                 <div>
-                    <p class="font-bold">AI Client</p>
+                    <p class="font-bold">{{ scenario.title }}</p>
                     <p class="text-xs text-text-dim">
-                        Tenant facing eviction without notice
+                        Role: {{ scenario.role }} • <span class="text-primary">{{ scenario.difficulty }}</span>
                     </p>
                 </div>
             </div>
@@ -265,8 +265,7 @@
             <div class="bg-background-dark/50 border border-border-dark/50 rounded-lg p-3">
                 <p class="text-xs font-bold text-primary mb-2">📋 Case Scenario</p>
                 <p class="text-xs text-text-dim leading-relaxed">
-                    A tenant claims their landlord is forcing them to vacate without notice and has stopped basic
-                    services.
+                    {{ scenario.context }}
                 </p>
             </div>
 

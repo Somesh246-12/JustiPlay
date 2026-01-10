@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Document Library | JustiPlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#1a2c29",
+                        "surface-active": "#234842",
+                        "text-secondary": "#92c9c0",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-dark text-white font-display min-h-screen">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="flex w-64 flex-col border-r border-surface-active bg-[#11221f]">
+            <div class="p-4 h-full flex flex-col gap-4">
+                <div class="flex items-center gap-2 mb-4 pl-2">
+                    <span class="material-symbols-outlined text-primary text-3xl">balance</span>
+                    <div>
+                        <h1 class="text-white text-xl font-bold">JustiPlay</h1>
+                        <p class="text-text-secondary text-xs">Citizen Portal</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2 flex-1">
+                    <a href="/citizen/dashboard"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                        <p class="text-sm font-medium">Dashboard</p>
+                    </a>
+                    <a href="/document/upload"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">upload_file</span>
+                        <p class="text-sm font-medium">Document Analysis</p>
+                    </a>
+                    <a href="/citizen/library"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-active text-white border border-surface-active group">
+                        <span class="material-symbols-outlined text-primary">folder</span>
+                        <p class="text-sm font-medium">Document Library</p>
+                    </a>
+                </nav>
+                <div class="mt-auto border-t border-surface-active pt-4">
+                    <a href="/logout"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-900/30 text-red-400 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Sign Out</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-background-dark">
+            <header class="flex items-center justify-between border-b border-surface-active px-10 py-5 bg-[#11221f]">
+                <div>
+                    <h1 class="text-2xl font-bold">Document Library</h1>
+                    <p class="text-text-secondary text-sm">View and manage your analyzed documents</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end">
+                        <p class="text-white text-sm font-bold">{{ user_context.full_name }}</p>
+                        <p class="text-[10px] text-text-secondary">Citizen</p>
+                    </div>
+                    <div class="size-10 rounded-full border-2 border-primary bg-cover bg-center"
+                        style='background-image: url("https://ui-avatars.com/api/?name={{ user_context.full_name }}&background=13ecc8&color=10221f");'>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-7xl mx-auto space-y-6">
+                <!-- Filters & Search -->
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                    <form method="GET" action="/citizen/library" class="grid grid-cols-1 md:grid-cols-4 gap-4">
+                        <!-- Search -->
+                        <div class="md:col-span-2">
+                            <label class="block text-sm font-semibold mb-2">Search Documents</label>
+                            <input type="text" name="search" value="{{ search_query }}"
+                                placeholder="Search by title or keywords..."
+                                class="w-full bg-background-dark border-surface-active text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-2">
+                        </div>
+
+                        <!-- Sort By -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Sort By</label>
+                            <select name="sort"
+                                class="w-full bg-background-dark border-surface-active text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-2">
+                                <option value="newest" {% if sort_by=='newest' %}selected{% endif %}>Newest First
+                                </option>
+                                <option value="oldest" {% if sort_by=='oldest' %}selected{% endif %}>Oldest First
+                                </option>
+                                <option value="high_risk" {% if sort_by=='high_risk' %}selected{% endif %}>High Risk
+                                    First</option>
+                                <option value="low_risk" {% if sort_by=='low_risk' %}selected{% endif %}>Low Risk First
+                                </option>
+                            </select>
+                        </div>
+
+                        <!-- Risk Filter -->
+                        <div>
+                            <label class="block text-sm font-semibold mb-2">Risk Level</label>
+                            <select name="risk"
+                                class="w-full bg-background-dark border-surface-active text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-2">
+                                <option value="">All Levels</option>
+                                <option value="high" {% if risk_filter=='high' %}selected{% endif %}>High Risk</option>
+                                <option value="medium" {% if risk_filter=='medium' %}selected{% endif %}>Medium Risk
+                                </option>
+                                <option value="low" {% if risk_filter=='low' %}selected{% endif %}>Low Risk</option>
+                            </select>
+                        </div>
+
+                        <div class="md:col-span-4 flex gap-3">
+                            <button type="submit"
+                                class="px-6 py-2 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all">
+                                Apply Filters
+                            </button>
+                            <a href="/citizen/library"
+                                class="px-6 py-2 bg-surface-active text-white font-bold rounded-lg hover:bg-surface-active/80 transition-all">
+                                Clear
+                            </a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Document Count -->
+                <div class="flex items-center justify-between">
+                    <p class="text-text-secondary">
+                        <span class="text-primary font-bold">{{ documents|length }}</span> document(s) found
+                    </p>
+                    <a href="/document/upload"
+                        class="px-4 py-2 bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold rounded-lg hover:from-primary/90 hover:to-teal-400/90 transition-all">
+                        + Upload New Document
+                    </a>
+                </div>
+
+                <!-- Documents List -->
+                {% if documents %}
+                <div class="space-y-4">
+                    {% for doc in documents %}
+                    <div
+                        class="bg-surface-dark border border-surface-active rounded-xl p-6 hover:border-primary transition-all">
+                        <div class="flex items-start justify-between gap-4">
+                            <div class="flex-1">
+                                <div class="flex items-center gap-3 mb-2">
+                                    <span class="material-symbols-outlined text-primary">description</span>
+                                    <h3 class="text-lg font-bold">{{ doc.title }}</h3>
+                                </div>
+                                <p class="text-sm text-text-secondary mb-3">{{ doc.summary[:200] }}{% if
+                                    doc.summary|length > 200 %}...{% endif %}</p>
+
+                                <div class="flex items-center gap-4 text-xs">
+                                    <span class="text-text-secondary">
+                                        <span
+                                            class="material-symbols-outlined text-sm align-middle">calendar_today</span>
+                                        {{ doc.uploaded_at.strftime('%b %d, %Y') if doc.uploaded_at else 'Unknown' }}
+                                    </span>
+
+                                    {% if doc.risk_score >= 70 %}
+                                    <span
+                                        class="px-3 py-1 bg-red-500/20 text-red-400 rounded-full font-bold border border-red-500/30">
+                                        High Risk ({{ doc.risk_score }})
+                                    </span>
+                                    {% elif doc.risk_score >= 40 %}
+                                    <span
+                                        class="px-3 py-1 bg-yellow-500/20 text-yellow-400 rounded-full font-bold border border-yellow-500/30">
+                                        Medium Risk ({{ doc.risk_score }})
+                                    </span>
+                                    {% else %}
+                                    <span
+                                        class="px-3 py-1 bg-green-500/20 text-green-400 rounded-full font-bold border border-green-500/30">
+                                        Low Risk ({{ doc.risk_score }})
+                                    </span>
+                                    {% endif %}
+                                </div>
+
+                                {% if doc.risk_flags %}
+                                <div class="mt-3 flex flex-wrap gap-2">
+                                    {% for flag in doc.risk_flags[:3] %}
+                                    <span
+                                        class="text-xs px-2 py-1 bg-background-dark border border-surface-active rounded">
+                                        ⚠️ {{ flag[:50] }}{% if flag|length > 50 %}...{% endif %}
+                                    </span>
+                                    {% endfor %}
+                                </div>
+                                {% endif %}
+                            </div>
+
+                            <div class="flex flex-col gap-2">
+                                <a href="/citizen/document/{{ doc.id }}"
+                                    class="px-4 py-2 bg-primary text-background-dark font-bold rounded-lg hover:bg-primary/90 transition-all text-center whitespace-nowrap">
+                                    View Analysis
+                                </a>
+                                <a href="{{ doc.file_url }}" target="_blank"
+                                    class="px-4 py-2 bg-surface-active text-white font-bold rounded-lg hover:bg-surface-active/80 transition-all text-center whitespace-nowrap">
+                                    Download PDF
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-12 text-center">
+                    <span class="material-symbols-outlined text-6xl text-text-secondary mb-4 block">folder_open</span>
+                    <h3 class="text-xl font-bold mb-2">No Documents Found</h3>
+                    <p class="text-text-secondary mb-6">Upload your first document to get started with AI-powered legal
+                        analysis</p>
+                    <a href="/document/upload"
+                        class="inline-block px-6 py-3 bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold rounded-lg hover:from-primary/90 hover:to-teal-400/90 transition-all">
+                        Upload Document
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>
