@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>My Evaluation - JustiPlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#1a2c29",
+                        "surface-active": "#234842",
+                        "text-secondary": "#92c9c0",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-dark text-white font-display min-h-screen">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="flex w-64 flex-col border-r border-surface-active bg-[#11221f]">
+            <div class="p-4 h-full flex flex-col gap-4">
+                <div class="flex items-center gap-2 mb-4 pl-2">
+                    <span class="material-symbols-outlined text-primary text-3xl">balance</span>
+                    <div>
+                        <h1 class="text-white text-xl font-bold">JustiPlay</h1>
+                        <p class="text-text-secondary text-xs">Student Portal</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2 flex-1">
+                    <a href="/student/dashboard"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                        <p class="text-sm font-medium">Dashboard</p>
+                    </a>
+                    <a href="/student/mock-client"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">chat</span>
+                        <p class="text-sm font-medium">Mock Client</p>
+                    </a>
+                    <a href="/student/document-drafting"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">edit_document</span>
+                        <p class="text-sm font-medium">Document Drafting</p>
+                    </a>
+                    <a href="/student/evaluation"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-active text-white border border-surface-active group">
+                        <span class="material-symbols-outlined text-primary">analytics</span>
+                        <p class="text-sm font-medium">My Evaluation</p>
+                    </a>
+                    <a href="/student/profile"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">account_circle</span>
+                        <p class="text-sm font-medium">Profile</p>
+                    </a>
+                </nav>
+                <div class="mt-auto border-t border-surface-active pt-4">
+                    <a href="/logout"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-900/30 text-red-400 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Sign Out</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-background-dark">
+            <header class="flex items-center justify-between border-b border-surface-active px-10 py-5 bg-[#11221f]">
+                <div>
+                    <h1 class="text-2xl font-bold">My Evaluation</h1>
+                    <p class="text-text-secondary text-sm">Comprehensive progress assessment</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end">
+                        <p class="text-white text-sm font-bold">{{ user_context.full_name }}</p>
+                        <p class="text-[10px] text-text-secondary">Level {{ stats.level }}: {{ stats.level_name }}</p>
+                    </div>
+                    <div class="size-10 rounded-full border-2 border-primary bg-cover bg-center"
+                        style='background-image: url("https://ui-avatars.com/api/?name={{ user_context.full_name }}&background=13ecc8&color=10221f");'>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-7xl mx-auto space-y-8">
+                <!-- Progress Level -->
+                <div
+                    class="bg-gradient-to-r from-surface-dark to-[#162e2a] border border-surface-active rounded-xl p-8">
+                    <div class="flex items-center justify-between mb-6">
+                        <div>
+                            <h2 class="text-3xl font-bold mb-2">{{ evaluation.progress_level }} Level</h2>
+                            <p class="text-text-secondary">{{ evaluation.overall_assessment }}</p>
+                        </div>
+                        <div
+                            class="size-20 rounded-full bg-primary/10 border-4 border-primary flex items-center justify-center">
+                            <span class="material-symbols-outlined text-primary text-4xl">emoji_events</span>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 mt-6">
+                        <div class="bg-background-dark border border-surface-active rounded-lg p-4 text-center">
+                            <p class="text-2xl font-bold text-primary">{{ stats.xp }}</p>
+                            <p class="text-xs text-text-secondary">Total XP</p>
+                        </div>
+                        <div class="bg-background-dark border border-surface-active rounded-lg p-4 text-center">
+                            <p class="text-2xl font-bold text-primary">{{ stats.level }}</p>
+                            <p class="text-xs text-text-secondary">Current Level</p>
+                        </div>
+                        <div class="bg-background-dark border border-surface-active rounded-lg p-4 text-center">
+                            <p class="text-2xl font-bold text-primary">{{ history|length }}</p>
+                            <p class="text-xs text-text-secondary">Activities</p>
+                        </div>
+                        <div class="bg-background-dark border border-surface-active rounded-lg p-4 text-center">
+                            <p class="text-2xl font-bold text-primary">{{ stats.progress_percent }}%</p>
+                            <p class="text-xs text-text-secondary">Progress</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Skills Breakdown -->
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                    <h3 class="text-xl font-bold mb-6 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">school</span>
+                        Skills Assessment
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {% for skill_name, skill_data in evaluation.skills.items() %}
+                        <div class="bg-background-dark border border-surface-active rounded-lg p-5">
+                            <div class="flex items-center justify-between mb-3">
+                                <h4 class="font-bold">{{ skill_name }}</h4>
+                                <span
+                                    class="px-3 py-1 bg-primary/10 text-primary rounded-full text-sm font-bold border border-primary/20">
+                                    {{ skill_data.grade }}
+                                </span>
+                            </div>
+                            <div class="w-full h-2 bg-surface-active rounded-full overflow-hidden mb-2">
+                                <div class="h-full bg-primary transition-all" style="width: {{ skill_data.score }}%">
+                                </div>
+                            </div>
+                            <p class="text-xs text-text-secondary">{{ skill_data.description }}</p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Strengths & Areas for Improvement -->
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-green-400">star</span>
+                            Your Strengths
+                        </h3>
+                        <ul class="space-y-3">
+                            {% for strength in evaluation.strengths %}
+                            <li
+                                class="flex items-start gap-3 bg-background-dark border border-surface-active rounded-lg p-3">
+                                <span class="material-symbols-outlined text-green-400 text-lg">check_circle</span>
+                                <span class="text-sm text-text-secondary">{{ strength }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                        <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                            <span class="material-symbols-outlined text-yellow-400">trending_up</span>
+                            Areas for Growth
+                        </h3>
+                        <ul class="space-y-3">
+                            {% for area in evaluation.areas_for_improvement %}
+                            <li
+                                class="flex items-start gap-3 bg-background-dark border border-surface-active rounded-lg p-3">
+                                <span class="material-symbols-outlined text-yellow-400 text-lg">arrow_upward</span>
+                                <span class="text-sm text-text-secondary">{{ area }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+
+                <!-- Personalized Recommendations -->
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">lightbulb</span>
+                        Personalized Learning Recommendations
+                    </h3>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        {% for recommendation in evaluation.recommendations %}
+                        <div
+                            class="flex items-start gap-3 bg-background-dark border border-surface-active rounded-lg p-4">
+                            <span class="material-symbols-outlined text-primary text-lg">arrow_forward</span>
+                            <span class="text-sm text-text-secondary">{{ recommendation }}</span>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                {% if history %}
+                <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                    <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">history</span>
+                        Recent Activity
+                    </h3>
+                    <div class="space-y-2">
+                        {% for item in history %}
+                        <div
+                            class="flex items-center justify-between bg-background-dark border border-surface-active rounded-lg p-3">
+                            <div class="flex items-center gap-3">
+                                <span class="material-symbols-outlined text-primary">{{ 'chat' if item.type == 'Mock
+                                    Client' else 'edit_document' }}</span>
+                                <div>
+                                    <p class="text-sm font-semibold">{{ item.case_name }}</p>
+                                    <p class="text-xs text-text-secondary">{{ item.type }} • {{ item.date }}</p>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <p class="text-sm font-bold text-primary">+{{ item.xp_earned }} XP</p>
+                                <p class="text-xs text-text-secondary">{{ item.score }}/100</p>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endif %}
+
+                <!-- Action Button -->
+                <div class="text-center">
+                    <a href="/student/dashboard"
+                        class="inline-block bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold py-4 px-8 rounded-lg hover:from-primary/90 hover:to-teal-400/90 transition-all shadow-lg">
+                        Back to Dashboard
+                    </a>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

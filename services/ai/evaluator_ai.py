@@ -34,5 +34,6 @@ def evaluate_student_question(student_question):
             "clarity": "Average",
             "relevance": "Medium",
             "ethics": "Safe",
+            "total_score": 50,
             "feedback": "Try to ask clearer, more specific questions to understand the client's situation better."
         }

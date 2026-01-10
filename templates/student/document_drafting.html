@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Document Drafting - JustiPlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "primary": "#13ecc8",
+                        "background-dark": "#10221f",
+                        "surface-dark": "#1a2c29",
+                        "surface-active": "#234842",
+                        "text-secondary": "#92c9c0",
+                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
+                },
+            },
+        }
+    </script>
+</head>
+
+<body class="bg-background-dark text-white font-display min-h-screen">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="flex w-64 flex-col border-r border-surface-active bg-[#11221f]">
+            <div class="p-4 h-full flex flex-col gap-4">
+                <div class="flex items-center gap-2 mb-4 pl-2">
+                    <span class="material-symbols-outlined text-primary text-3xl">balance</span>
+                    <div>
+                        <h1 class="text-white text-xl font-bold">JustiPlay</h1>
+                        <p class="text-text-secondary text-xs">Student Portal</p>
+                    </div>
+                </div>
+                <nav class="flex flex-col gap-2 flex-1">
+                    <a href="/student/dashboard"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                        <p class="text-sm font-medium">Dashboard</p>
+                    </a>
+                    <a href="/student/mock-client"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">chat</span>
+                        <p class="text-sm font-medium">Mock Client</p>
+                    </a>
+                    <a href="/student/document-drafting"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-active text-white border border-surface-active group">
+                        <span class="material-symbols-outlined text-primary">edit_document</span>
+                        <p class="text-sm font-medium">Document Drafting</p>
+                    </a>
+                    <a href="/student/evaluation"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">analytics</span>
+                        <p class="text-sm font-medium">My Evaluation</p>
+                    </a>
+                    <a href="/student/profile"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">account_circle</span>
+                        <p class="text-sm font-medium">Profile</p>
+                    </a>
+                </nav>
+                <div class="mt-auto border-t border-surface-active pt-4">
+                    <a href="/logout"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-900/30 text-red-400 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Sign Out</p>
+                    </a>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-background-dark">
+            <header class="flex items-center justify-between border-b border-surface-active px-10 py-5 bg-[#11221f]">
+                <div>
+                    <h1 class="text-2xl font-bold">Document Drafting</h1>
+                    <p class="text-text-secondary text-sm">Practice legal writing and get AI feedback</p>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end">
+                        <p class="text-white text-sm font-bold">{{ user_context.full_name }}</p>
+                        <p class="text-[10px] text-text-secondary">Level {{ stats.level }}: {{ stats.level_name }}</p>
+                    </div>
+                    <div class="size-10 rounded-full border-2 border-primary bg-cover bg-center"
+                        style='background-image: url("https://ui-avatars.com/api/?name={{ user_context.full_name }}&background=13ecc8&color=10221f");'>
+                    </div>
+                </div>
+            </header>
+
+            <div class="p-8 max-w-7xl mx-auto space-y-8">
+                <!-- Instructions -->
+                <div class="bg-gradient-to-r from-primary/10 to-teal-400/10 border border-primary/30 rounded-xl p-6">
+                    <h2 class="text-xl font-bold mb-3 flex items-center gap-2">
+                        <span class="material-symbols-outlined text-primary">lightbulb</span>
+                        How It Works
+                    </h2>
+                    <p class="text-text-secondary mb-4">Draft a legal document and receive AI-powered evaluation on
+                        clarity, relevance, and ethical compliance. Earn XP based on your performance!</p>
+                    <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary">looks_one</span>
+                            <div>
+                                <p class="font-semibold text-sm">Select Type</p>
+                                <p class="text-xs text-text-secondary">Choose document category</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary">looks_two</span>
+                            <div>
+                                <p class="font-semibold text-sm">Write Document</p>
+                                <p class="text-xs text-text-secondary">Draft your legal content</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3">
+                            <span class="material-symbols-outlined text-primary">looks_3</span>
+                            <div>
+                                <p class="font-semibold text-sm">Get Feedback</p>
+                                <p class="text-xs text-text-secondary">Receive AI evaluation</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Drafting Form -->
+                    <div class="lg:col-span-2">
+                        <form method="POST" class="space-y-6">
+                            <div class="bg-surface-dark border border-surface-active rounded-xl p-6 space-y-6">
+                                <div>
+                                    <label class="block text-sm font-bold mb-3">Document Type</label>
+                                    <select name="document_type" required
+                                        class="w-full bg-background-dark border-surface-active text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-3">
+                                        <option value="Legal Notice">Legal Notice</option>
+                                        <option value="Contract Agreement">Contract Agreement</option>
+                                        <option value="Affidavit">Affidavit</option>
+                                        <option value="Petition">Petition</option>
+                                        <option value="Legal Opinion">Legal Opinion</option>
+                                        <option value="Memorandum">Memorandum</option>
+                                        <option value="Power of Attorney">Power of Attorney</option>
+                                        <option value="Lease Agreement">Lease Agreement</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-bold mb-3">Your Document</label>
+                                    <textarea name="document_text" required rows="18" placeholder="Begin drafting your legal document here...
+
+Example structure:
+- Title/Heading
+- Parties involved
+- Background/Context
+- Terms and conditions
+- Legal clauses
+- Signatures/Date" class="w-full bg-background-dark border-surface-active text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-3 font-mono text-sm"></textarea>
+                                    <p class="text-xs text-text-secondary mt-2">Minimum 50 characters required for
+                                        evaluation</p>
+                                </div>
+
+                                <button type="submit"
+                                    class="w-full bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold py-4 rounded-lg hover:from-primary/90 hover:to-teal-400/90 transition-all shadow-lg flex items-center justify-center gap-2">
+                                    <span class="material-symbols-outlined">send</span>
+                                    Submit for Evaluation
+                                </button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Recent Submissions -->
+                    <div class="space-y-6">
+                        <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                            <h3 class="text-lg font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">history</span>
+                                Recent Submissions
+                            </h3>
+                            {% if history %}
+                            <div class="space-y-3">
+                                {% for item in history %}
+                                {% if item.type == "Document Drafting" %}
+                                <div class="bg-background-dark border border-surface-active rounded-lg p-3">
+                                    <p class="text-sm font-semibold truncate">{{ item.case_name }}</p>
+                                    <div class="flex items-center justify-between mt-2">
+                                        <span class="text-xs text-text-secondary">{{ item.date }}</span>
+                                        <span class="text-xs font-bold text-primary">+{{ item.xp_earned }} XP</span>
+                                    </div>
+                                </div>
+                                {% endif %}
+                                {% endfor %}
+                            </div>
+                            {% else %}
+                            <p class="text-sm text-text-secondary text-center py-8">No submissions yet. Start drafting!
+                            </p>
+                            {% endif %}
+                        </div>
+
+                        <div class="bg-primary/10 border border-primary/30 rounded-xl p-6">
+                            <h4 class="font-bold mb-3 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary text-lg">tips_and_updates</span>
+                                Pro Tips
+                            </h4>
+                            <ul class="space-y-2 text-sm text-text-secondary">
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Use clear, professional language</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Structure your document logically</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Include all necessary legal elements</span>
+                                </li>
+                                <li class="flex items-start gap-2">
+                                    <span class="text-primary">•</span>
+                                    <span>Review for ethical compliance</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</body>
+
+</html>

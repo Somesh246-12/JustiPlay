@@ -1,15 +1,17 @@
 <!DOCTYPE html>
 <html class="dark" lang="en">
+
 <head>
-  <meta charset="utf-8"/>
-  <meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+  <meta charset="utf-8" />
+  <meta content="width=device-width, initial-scale=1.0" name="viewport" />
   <title>JustiPlay - Login / Signup</title>
 
-  <link rel="preconnect" href="https://fonts.googleapis.com"/>
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet"/>
-  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+    rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
   <script>
@@ -34,95 +36,119 @@
   </script>
 </head>
 
-<body class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col overflow-x-hidden">
+<body
+  class="bg-background-light dark:bg-background-dark font-display antialiased min-h-screen flex flex-col overflow-x-hidden">
 
-<header class="w-full border-b border-border-dark bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
-  <div class="px-6 md:px-10 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
-    <div class="flex items-center gap-3 text-white">
-      <span class="material-symbols-outlined text-3xl text-primary">balance</span>
-      <h2 class="text-xl font-bold">JustiPlay</h2>
+  <header class="w-full border-b border-border-dark bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+    <div class="px-6 md:px-10 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
+      <div class="flex items-center gap-3 text-white">
+        <span class="material-symbols-outlined text-3xl text-primary">balance</span>
+        <h2 class="text-xl font-bold">JustiPlay</h2>
+      </div>
+      <a class="text-sm font-medium text-text-dim hover:text-white" href="#">Need Help?</a>
     </div>
-    <a class="text-sm font-medium text-text-dim hover:text-white" href="#">Need Help?</a>
-  </div>
-</header>
+  </header>
 
-<main class="flex-grow flex items-center justify-center p-4 relative">
+  <main class="flex-grow flex items-center justify-center p-4 relative">
 
-  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[500px] bg-primary/5 rounded-full blur-[120px]"></div>
-
-  <form method="POST" class="w-full max-w-[520px] flex flex-col gap-8 z-10">
-
-    <div class="text-center space-y-2">
-      <h1 class="text-white text-4xl font-black">Welcome Back</h1>
-      <p class="text-text-dim text-sm">Log in to continue your legal learning journey.</p>
+    <div
+      class="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-[500px] bg-primary/5 rounded-full blur-[120px]">
     </div>
 
-    <!-- ROLE SELECTION -->
-    <div class="space-y-4">
-      <div class="flex items-center justify-between px-1">
-        <h2 class="text-white text-lg font-bold">Who are you?</h2>
-        <span class="text-xs text-primary bg-primary/10 px-2 py-1 rounded font-medium">Step 1 of 2</span>
+    <form method="POST" id="loginForm" class="w-full max-w-[520px] flex flex-col gap-8 z-10">
+      <input type="hidden" name="role" id="roleInput" value="student">
+
+      <div class="text-center space-y-2">
+        <h1 class="text-white text-4xl font-black">Welcome Back</h1>
+        <p class="text-text-dim text-sm">Log in to continue your legal learning journey.</p>
       </div>
 
-      <div class="grid grid-cols-2 gap-4">
+      <!-- ROLE SELECTION -->
+      <div class="space-y-4">
+        <div class="flex items-center justify-between px-1">
+          <h2 class="text-white text-lg font-bold">Who are you?</h2>
+        </div>
 
-        <!-- STUDENT -->
-        <button
-          type="submit"
-          name="role"
-          value="student"
-          class="group relative flex flex-col gap-3 rounded-xl p-4 cursor-pointer border-2 border-primary bg-primary/10 hover:bg-primary/20 text-left transition-all">
+        <div class="grid grid-cols-2 gap-4">
+          <!-- STUDENT -->
+          <button type="button" onclick="setRole('student')" id="btn-student"
+            class="role-btn group relative flex flex-col gap-3 rounded-xl p-4 cursor-pointer border-2 border-primary bg-primary/10 hover:bg-primary/20 text-left transition-all">
+            <div class="absolute top-3 right-3 text-primary check-icon">
+              <span class="material-symbols-outlined fill-1">check_circle</span>
+            </div>
+            <div
+              class="size-10 rounded-lg bg-surface-dark flex items-center justify-center text-white border border-border-dark">
+              <span class="material-symbols-outlined">school</span>
+            </div>
+            <div>
+              <p class="text-white font-bold">Law Student</p>
+              <p class="text-text-dim text-xs">Access academic modules</p>
+            </div>
+          </button>
 
-          <div class="absolute top-3 right-3 text-primary">
-            <span class="material-symbols-outlined fill-1">check_circle</span>
-          </div>
-
-          <div class="size-10 rounded-lg bg-surface-dark flex items-center justify-center text-white border border-border-dark">
-            <span class="material-symbols-outlined">school</span>
-          </div>
-
-          <div>
-            <p class="text-white font-bold">Law Student</p>
-            <p class="text-text-dim text-xs">Access academic modules & case studies</p>
-          </div>
-        </button>
-
-        <!-- CITIZEN -->
-        <button
-          type="submit"
-          name="role"
-          value="citizen"
-          class="group flex flex-col gap-3 rounded-xl p-4 cursor-pointer border border-border-dark bg-surface-dark hover:border-primary/50 hover:bg-surface-dark/80 text-left transition-all opacity-80 hover:opacity-100">
-
-          <div class="size-10 rounded-lg bg-background-dark flex items-center justify-center text-white border border-border-dark">
-            <span class="material-symbols-outlined">shield_person</span>
-          </div>
-
-          <div>
-            <p class="text-white font-bold">Citizen</p>
-            <p class="text-text-dim text-xs">Legal awareness & rights education</p>
-          </div>
-        </button>
-
+          <!-- CITIZEN -->
+          <button type="button" onclick="setRole('citizen')" id="btn-citizen"
+            class="role-btn group flex flex-col gap-3 rounded-xl p-4 cursor-pointer border border-border-dark bg-surface-dark hover:border-primary/50 hover:bg-surface-dark/80 text-left transition-all opacity-80">
+            <div class="absolute top-3 right-3 text-primary check-icon hidden">
+              <span class="material-symbols-outlined fill-1">check_circle</span>
+            </div>
+            <div
+              class="size-10 rounded-lg bg-background-dark flex items-center justify-center text-white border border-border-dark">
+              <span class="material-symbols-outlined">shield_person</span>
+            </div>
+            <div>
+              <p class="text-white font-bold">Citizen</p>
+              <p class="text-text-dim text-xs">Legal awareness</p>
+            </div>
+          </button>
+        </div>
       </div>
+
+      <!-- LOGIN FIELDS -->
+      <div class="bg-surface-dark border border-border-dark rounded-xl p-6 space-y-4">
+        <div class="space-y-2">
+          <label class="text-text-dim text-xs font-bold uppercase tracking-wider pl-1">Username</label>
+          <input type="text" name="username" placeholder="Enter your name" required
+            class="w-full bg-background-dark border-border-dark text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-3">
+        </div>
+        <div class="space-y-2">
+          <label class="text-text-dim text-xs font-bold uppercase tracking-wider pl-1">Access Code (Password)</label>
+          <input type="password" name="password" placeholder="••••••••" required
+            class="w-full bg-background-dark border-border-dark text-white rounded-lg focus:ring-primary focus:border-primary px-4 py-3">
+        </div>
+
+        <button type="submit"
+          class="w-full bg-primary hover:bg-primary/90 text-background-dark font-black py-4 rounded-xl transition-all transform hover:scale-[1.02] active:scale-[0.98] mt-4 shadow-lg shadow-primary/20">
+          ENTER JUSTIPLAY
+        </button>
+      </div>
+
+      <script>
+        function setRole(role) {
+          document.getElementById('roleInput').value = role;
+          const btns = document.querySelectorAll('.role-btn');
+          btns.forEach(btn => {
+            btn.classList.remove('border-primary', 'bg-primary/10', 'opacity-100');
+            btn.classList.add('border-border-dark', 'bg-surface-dark', 'opacity-80');
+            btn.querySelector('.check-icon').classList.add('hidden');
+          });
+
+          const activeBtn = document.getElementById('btn-' + role);
+          activeBtn.classList.remove('border-border-dark', 'bg-surface-dark', 'opacity-80');
+          activeBtn.classList.add('border-primary', 'bg-primary/10', 'opacity-100');
+          activeBtn.querySelector('.check-icon').classList.remove('hidden');
+        }
+      </script>
+    </form>
+  </main>
+
+  <footer class="w-full border-t border-border-dark bg-background-dark/80 py-6 px-6">
+    <div class="max-w-4xl mx-auto text-center text-text-dim text-xs">
+      <span class="font-bold text-white">Disclaimer:</span>
+      Educational and legal awareness purposes only. No legal advice provided.
     </div>
-
-    <!-- LOGIN FIELDS (VISUAL ONLY FOR MVP) -->
-    <div class="bg-surface-dark border border-border-dark rounded-xl p-6 opacity-60 pointer-events-none">
-      <p class="text-center text-text-dim text-sm">
-        Authentication will be enabled in later versions.
-      </p>
-    </div>
-
-  </form>
-</main>
-
-<footer class="w-full border-t border-border-dark bg-background-dark/80 py-6 px-6">
-  <div class="max-w-4xl mx-auto text-center text-text-dim text-xs">
-    <span class="font-bold text-white">Disclaimer:</span>
-    Educational and legal awareness purposes only. No legal advice provided.
-  </div>
-</footer>
+  </footer>
 
 </body>
+
 </html>

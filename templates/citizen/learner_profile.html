@@ -1,215 +1,211 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html class="dark" lang="en">
 
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>{{ learner.name }} | Learner Profile</title>
-
-    <!-- Fonts & Icons -->
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;700;900&display=swap"
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>{{ learner.name }} - JustiPlay</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap"
         rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
         rel="stylesheet" />
-
-    <!-- Tailwind -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script>
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
                     colors: {
-                        primary: "#13ecc8",
+                        "primary": "#13ecc8",
                         "background-dark": "#10221f",
-                        "surface-dark": "#19332f",
-                        "border-dark": "#234842",
-                        "text-dim": "#92c9c0",
+                        "surface-dark": "#1a2c29",
+                        "surface-active": "#234842",
+                        "text-secondary": "#92c9c0",
                     },
-                    fontFamily: {
-                        display: ["Inter", "Noto Sans", "sans-serif"]
-                    },
+                    fontFamily: { "display": ["Inter", "sans-serif"] },
                 },
             },
         }
     </script>
 </head>
 
-<body class="bg-background-dark font-display text-white min-h-screen">
-
-    <!-- Top Disclaimer -->
-    <div class="text-xs text-center py-2 bg-yellow-500/10 text-yellow-300">
-        ⚠ This interaction is for educational legal awareness only. No legal advice is provided.
-    </div>
-
-    <!-- Header -->
-    <header class="border-b border-border-dark bg-background-dark/80 backdrop-blur sticky top-0 z-40">
-        <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
-            <div class="flex items-center gap-3">
-                <span class="material-symbols-outlined text-primary text-3xl">balance</span>
-                <h1 class="text-xl font-bold">JustiPlay</h1>
-            </div>
-
-            <a href="/citizen/dashboard" class="text-sm text-text-dim hover:text-white flex items-center gap-1">
-                <span class="material-symbols-outlined text-sm">arrow_back</span>
-                Back to Learners
-            </a>
-        </div>
-    </header>
-
-    <!-- Main Content -->
-    <main class="max-w-5xl mx-auto px-6 py-10 space-y-10">
-
-        <!-- Learner Header -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
-            <h2 class="text-3xl font-bold mb-1">
-                {{ learner.name }}
-            </h2>
-            <p class="text-text-dim text-sm">
-                Law Student · Educational Learner
-            </p>
-        </section>
-
-        <!-- About the Learner -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
-            <h3 class="text-lg font-bold mb-3">About the Learner</h3>
-            <p class="text-text-dim text-sm leading-relaxed">
-                {{ learner.about }}
-            </p>
-        </section>
-
-        <!-- Expertise Areas -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
-            <h3 class="text-lg font-bold mb-4">Expertise Areas</h3>
-            <div class="flex flex-wrap gap-3">
-                {% for skill in learner.expertise %}
-                <span
-                    class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-primary/5 text-primary border border-primary/20 rounded-lg text-sm font-medium">
-                    {{ skill }}
-                </span>
-                {% endfor %}
-            </div>
-        </section>
-
-        <!-- Learning Milestones -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
-            <h3 class="text-lg font-bold mb-4">Learning Milestones</h3>
-            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                {% for badge in learner.achievements %}
-                <div class="flex items-center gap-3 p-3 rounded-lg bg-[#11221f] border border-border-dark">
-                    <div
-                        class="size-10 rounded-full bg-primary/10 flex items-center justify-center text-primary border border-primary/20">
-                        <span class="material-symbols-outlined">military_tech</span>
-                    </div>
+<body class="bg-background-dark text-white font-display min-h-screen">
+    <div class="flex h-screen w-full">
+        <!-- Sidebar -->
+        <aside class="flex w-64 flex-col border-r border-surface-active bg-[#11221f]">
+            <div class="p-4 h-full flex flex-col gap-4">
+                <div class="flex items-center gap-2 mb-4 pl-2">
+                    <span class="material-symbols-outlined text-primary text-3xl">balance</span>
                     <div>
-                        <p class="text-sm font-bold">{{ badge }}</p>
-                        <p class="text-[10px] text-text-dim">
-                            Verified educational milestone
-                        </p>
+                        <h1 class="text-white text-xl font-bold">JustiPlay</h1>
+                        <p class="text-text-secondary text-xs">Citizen Portal</p>
                     </div>
                 </div>
-                {% endfor %}
-            </div>
-        </section>
-
-        <!-- Educational Endorsements -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
-            <h3 class="text-lg font-bold mb-3">
-                Educational Endorsements
-            </h3>
-
-            <p class="text-text-dim text-sm mb-4">
-                Based on educational interactions, learners may receive endorsements
-                for clarity and explanation in specific legal domains.
-            </p>
-
-            {% if learner.endorsements %}
-            <div class="flex flex-wrap gap-3">
-                {% for domain, count in learner.endorsements.items() %}
-                <span class="px-3 py-1.5 bg-primary/5 text-primary border border-primary/20 rounded-lg text-sm">
-                    {{ domain }} · {{ count }} learners helped
-                </span>
-                {% endfor %}
-            </div>
-            {% else %}
-            <p class="text-text-dim text-sm">
-                No endorsements yet.
-            </p>
-            {% endif %}
-        </section>
-
-
-        <!-- Action Section -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6 text-center">
-            <p class="text-text-dim text-sm mb-4">
-                You may request an educational explanation from this learner under supervised conditions.
-            </p>
-
-            <button
-                class="px-6 py-3 bg-primary text-background-dark rounded-lg font-bold hover:bg-primary/90 transition">
-                Request Educational Explanation
-            </button>
-
-            <p class="text-[10px] text-text-dim mt-3">
-                This does not constitute legal advice or professional consultation.
-            </p>
-        </section>
-
-        <!-- Submit Educational Endorsement -->
-        <section class="bg-surface-dark border border-border-dark rounded-xl p-6">
-            <h3 class="text-lg font-bold mb-3">
-                Share Educational Feedback
-            </h3>
-
-            <p class="text-text-dim text-sm mb-4">
-                Help others by indicating what this learner explained clearly.
-                This feedback is educational and non-professional.
-            </p>
-
-            <form method="POST" action="/citizen/endorse/{{ learner.id }}" class="space-y-4">
-
-                <!-- Domain Selection -->
-                <div>
-                    <label class="block text-sm mb-1">Topic Explained Clearly</label>
-                    <select name="domain" required
-                        class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-2 text-sm">
-                        {% for skill in learner.expertise %}
-                        <option value="{{ skill }}">{{ skill }}</option>
-                        {% endfor %}
-                    </select>
+                <nav class="flex flex-col gap-2 flex-1">
+                    <a href="/citizen/dashboard"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">dashboard</span>
+                        <p class="text-sm font-medium">Dashboard</p>
+                    </a>
+                    <a href="/document/upload"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-text-secondary hover:bg-surface-active hover:text-white transition-all group">
+                        <span class="material-symbols-outlined group-hover:text-primary">description</span>
+                        <p class="text-sm font-medium">Document Analysis</p>
+                    </a>
+                </nav>
+                <div class="mt-auto border-t border-surface-active pt-4">
+                    <a href="/logout"
+                        class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-900/30 text-red-400 transition-colors">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium">Sign Out</p>
+                    </a>
                 </div>
+            </div>
+        </aside>
 
-                <!-- Optional Feedback -->
-                <div>
-                    <label class="block text-sm mb-1">Optional Comment</label>
-                    <textarea name="comment" rows="3" placeholder="The explanation was clear and helpful..."
-                        class="w-full bg-background-dark border border-border-dark rounded-lg px-3 py-2 text-sm"></textarea>
+        <!-- Main Content -->
+        <main class="flex-1 overflow-y-auto bg-background-dark">
+            <header class="flex items-center justify-between border-b border-surface-active px-10 py-5 bg-[#11221f]">
+                <div class="flex items-center gap-4">
+                    <a href="/citizen/dashboard" class="text-text-secondary hover:text-white transition">
+                        <span class="material-symbols-outlined">arrow_back</span>
+                    </a>
+                    <div>
+                        <h1 class="text-2xl font-bold">Learner Profile</h1>
+                        <p class="text-text-secondary text-sm">Educational legal guidance</p>
+                    </div>
                 </div>
+                <div class="flex items-center gap-4">
+                    <div class="flex flex-col items-end">
+                        <p class="text-white text-sm font-bold">{{ user_context.full_name }}</p>
+                        <p class="text-[10px] text-text-secondary">@{{ user_context.username }}</p>
+                    </div>
+                    <div class="size-10 rounded-full border-2 border-primary bg-cover bg-center"
+                        style='background-image: url("https://ui-avatars.com/api/?name={{ user_context.full_name }}&background=13ecc8&color=10221f");'>
+                    </div>
+                </div>
+            </header>
 
-                <!-- Submit -->
-                <button type="submit"
-                    class="px-5 py-2 bg-primary text-background-dark rounded-lg font-bold hover:bg-primary/90 transition">
-                    Submit Educational Feedback
-                </button>
+            <div class="p-8 max-w-7xl mx-auto space-y-8">
+                <!-- Profile Header -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Left: Profile Card -->
+                    <div class="lg:col-span-1">
+                        <div class="bg-surface-dark border border-surface-active rounded-xl p-6 space-y-6 sticky top-8">
+                            <div class="flex flex-col items-center text-center">
+                                <div class="size-24 rounded-full border-4 border-primary bg-cover bg-center mb-4"
+                                    style='background-image: url("https://ui-avatars.com/api/?name={{ learner.name }}&background=234842&color=13ecc8&font-size=0.35&bold=true");'>
+                                </div>
+                                <h2 class="text-2xl font-bold">{{ learner.name }}</h2>
+                                <p class="text-primary font-semibold text-sm">{{ learner.domain }}</p>
+                                <span
+                                    class="inline-block mt-3 px-4 py-1 bg-primary/10 text-primary rounded-full text-xs font-bold border border-primary/20">
+                                    {{ learner.level }} Level
+                                </span>
+                            </div>
 
-                <p class="text-[10px] text-text-dim">
-                    This does not constitute a legal review or recommendation.
-                </p>
+                            <!-- Stats -->
+                            <div class="space-y-3 pt-4 border-t border-surface-active">
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-text-secondary">Cases Helped</span>
+                                    <span class="text-white font-bold">{{ learner.stats.cases_helped }}</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-text-secondary">Response Time</span>
+                                    <span class="text-white font-bold">{{ learner.stats.response_time }}</span>
+                                </div>
+                                <div class="flex items-center justify-between">
+                                    <span class="text-sm text-text-secondary">Satisfaction</span>
+                                    <span class="text-primary font-bold">{{ learner.stats.satisfaction }}%</span>
+                                </div>
+                            </div>
 
-            </form>
-        </section>
+                            <!-- Connect Button -->
+                            <button
+                                class="w-full bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold py-3 rounded-lg hover:from-primary/90 hover:to-teal-400/90 transition-all shadow-lg">
+                                Connect with {{ learner.name.split()[0] }}
+                            </button>
+                        </div>
+                    </div>
 
+                    <!-- Right: Details -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <!-- About -->
+                        <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">person</span>
+                                About
+                            </h3>
+                            <p class="text-text-secondary leading-relaxed">{{ learner.about }}</p>
+                        </div>
 
-    </main>
+                        <!-- Expertise -->
+                        <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">workspace_premium</span>
+                                Areas of Expertise
+                            </h3>
+                            <div class="flex flex-wrap gap-2">
+                                {% for skill in learner.expertise %}
+                                <span
+                                    class="px-4 py-2 bg-primary/10 text-primary rounded-lg text-sm font-semibold border border-primary/20">
+                                    {{ skill }}
+                                </span>
+                                {% endfor %}
+                            </div>
+                        </div>
 
-    <!-- Footer -->
-    <footer class="border-t border-border-dark py-6 text-center text-xs text-text-dim">
-        Educational platform only · No legal advice · No professional services
-    </footer>
+                        <!-- Achievements & Badges -->
+                        <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">emoji_events</span>
+                                Achievements ({{ learner.achievements_count }})
+                            </h3>
+                            <div class="grid grid-cols-2 md:grid-cols-3 gap-3">
+                                {% for badge in learner.badges %}
+                                <div
+                                    class="bg-background-dark border border-surface-active rounded-lg p-3 flex items-center gap-3 hover:border-primary/50 transition-colors">
+                                    <div
+                                        class="size-10 rounded-lg bg-primary/10 flex items-center justify-center flex-shrink-0">
+                                        <span class="material-symbols-outlined text-primary text-xl">{{ badge.icon
+                                            }}</span>
+                                    </div>
+                                    <span class="text-sm font-semibold text-white truncate">{{ badge.name }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
 
+                        <!-- Recent Topics -->
+                        <div class="bg-surface-dark border border-surface-active rounded-xl p-6">
+                            <h3 class="text-xl font-bold mb-4 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-primary">history</span>
+                                Recent Topics Covered
+                            </h3>
+                            <div class="space-y-2">
+                                {% for topic in learner.recent_topics %}
+                                <div
+                                    class="flex items-center gap-3 p-3 bg-background-dark border border-surface-active rounded-lg">
+                                    <span class="material-symbols-outlined text-primary">check_circle</span>
+                                    <span class="text-sm text-white">{{ topic }}</span>
+                                </div>
+                                {% endfor %}
+                            </div>
+                        </div>
+
+                        <!-- Disclaimer -->
+                        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4">
+                            <p class="text-sm text-yellow-300 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-lg">info</span>
+                                <strong>Educational Purpose:</strong> Learners provide educational guidance only. For
+                                specific legal advice, consult a qualified attorney.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </body>
 
 </html>

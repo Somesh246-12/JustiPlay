@@ -1,5 +1,16 @@
 from flask import Flask
 from config import Config
+from dotenv import load_dotenv
+import os
+
+# Load environment variables from .env file
+load_dotenv()
+
+# Verify critical environment variables are loaded
+if not os.getenv("GCP_PROJECT_ID"):
+    print("⚠️ WARNING: GCP_PROJECT_ID not found in environment variables!")
+if not os.getenv("GEMINI_API_KEY"):
+    print("⚠️ WARNING: GEMINI_API_KEY not found in environment variables!")
 
 def create_app():
     app = Flask(__name__)
@@ -20,8 +31,9 @@ def create_app():
     app.register_blueprint(document_bp, url_prefix="/document")
 
     @app.route("/")
-    def health_check():
-        return {"status": "JustiPlay MVP running"}
+    def index():
+        from flask import redirect, url_for
+        return redirect(url_for("auth.login"))
 
     return app
 

@@ -1,0 +1,77 @@
+/* static/css/highlights.css */
+
+/* Risk-based text highlighting for document analysis */
+
+mark {
+    padding: 2px 4px;
+    border-radius: 3px;
+    font-weight: 500;
+    transition: all 0.2s ease;
+    display: inline;
+    line-height: 1.6;
+}
+
+/* High Risk - Red */
+mark.risk-high {
+    background-color: rgba(239, 68, 68, 0.25);
+    color: #fef2f2;
+    border-left: 3px solid #ef4444;
+    padding-left: 6px;
+}
+
+mark.risk-high:hover {
+    background-color: rgba(239, 68, 68, 0.35);
+    box-shadow: 0 0 0 2px rgba(239, 68, 68, 0.2);
+}
+
+/* Medium Risk - Yellow/Amber */
+mark.risk-medium {
+    background-color: rgba(245, 158, 11, 0.25);
+    color: #fefce8;
+    border-left: 3px solid #f59e0b;
+    padding-left: 6px;
+}
+
+mark.risk-medium:hover {
+    background-color: rgba(245, 158, 11, 0.35);
+    box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.2);
+}
+
+/* Low Risk - Green */
+mark.risk-low {
+    background-color: rgba(34, 197, 94, 0.25);
+    color: #f0fdf4;
+    border-left: 3px solid #22c55e;
+    padding-left: 6px;
+}
+
+mark.risk-low:hover {
+    background-color: rgba(34, 197, 94, 0.35);
+    box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
+}
+
+/* Ensure readability in dark theme */
+@media (prefers-color-scheme: dark) {
+    mark.risk-high {
+        color: #fee2e2;
+    }
+
+    mark.risk-medium {
+        color: #fef3c7;
+    }
+
+    mark.risk-low {
+        color: #d1fae5;
+    }
+}
+
+/* Accessibility: Focus states for keyboard navigation */
+mark:focus {
+    outline: 2px solid currentColor;
+    outline-offset: 2px;
+}
+
+/* Document text container */
+pre {
+    white-space: pre-wrap;
+}

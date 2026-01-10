@@ -1,0 +1,9 @@
+import google.generativeai as genai
+import os
+
+genai.configure(api_key=os.getenv("GEMINI_API_KEY"))
+
+model = genai.GenerativeModel("gemini-2.5-flash")
+resp = model.generate_content("Say: Gemini test successful")
+
+print(resp.text)

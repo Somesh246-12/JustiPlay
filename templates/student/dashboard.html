@@ -83,41 +83,40 @@
                 <!-- Navigation Links -->
                 <nav class="flex flex-col gap-2 flex-1">
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg bg-surface-active border border-surface-active group"
-                        href="#">
+                        href="/student/dashboard">
                         <span class="material-symbols-outlined text-primary">dashboard</span>
                         <p class="text-white text-sm font-medium leading-normal">Dashboard</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
-                        href="#">
-                        <span
-                            class="material-symbols-outlined group-hover:text-primary transition-colors">folder_shared</span>
-                        <p class="text-sm font-medium leading-normal">Case Files</p>
+                        href="/student/mock-client">
+                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">chat</span>
+                        <p class="text-sm font-medium leading-normal">Mock Client</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
-                        href="#">
+                        href="/student/document-drafting">
                         <span
-                            class="material-symbols-outlined group-hover:text-primary transition-colors">model_training</span>
-                        <p class="text-sm font-medium leading-normal">Simulations</p>
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">edit_document</span>
+                        <p class="text-sm font-medium leading-normal">Document Drafting</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
-                        href="#">
+                        href="/student/evaluation">
                         <span
-                            class="material-symbols-outlined group-hover:text-primary transition-colors">account_tree</span>
-                        <p class="text-sm font-medium leading-normal">Skill Tree</p>
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">analytics</span>
+                        <p class="text-sm font-medium leading-normal">My Evaluation</p>
                     </a>
                     <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
-                        href="#">
-                        <span class="material-symbols-outlined group-hover:text-primary transition-colors">trophy</span>
-                        <p class="text-sm font-medium leading-normal">Leaderboard</p>
+                        href="/student/profile">
+                        <span
+                            class="material-symbols-outlined group-hover:text-primary transition-colors">account_circle</span>
+                        <p class="text-sm font-medium leading-normal">Profile</p>
                     </a>
                 </nav>
                 <!-- Bottom Links -->
                 <div class="flex flex-col gap-2 mt-auto border-t border-surface-active pt-4">
-                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-surface-active/50 transition-colors group text-text-secondary hover:text-white"
-                        href="#">
-                        <span
-                            class="material-symbols-outlined group-hover:text-primary transition-colors">settings</span>
-                        <p class="text-sm font-medium leading-normal">Settings</p>
+                    <a class="flex items-center gap-3 px-3 py-2.5 rounded-lg hover:bg-red-900/30 text-red-400 transition-colors"
+                        href="/logout">
+                        <span class="material-symbols-outlined">logout</span>
+                        <p class="text-sm font-medium leading-normal">Sign Out</p>
                     </a>
                 </div>
             </div>
@@ -165,13 +164,13 @@
                     <!-- Profile -->
                     <div class="flex items-center gap-3 pl-6 border-l border-surface-active">
                         <div class="flex flex-col items-end">
-                            <p class="text-white text-sm font-bold">Alex Mercer</p>
+                            <p class="text-white text-sm font-bold">{{ user_context.full_name }}</p>
                             <span
                                 class="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full font-semibold border border-primary/20">LEARNER</span>
                         </div>
                         <div class="size-10 rounded-full bg-cover bg-center border-2 border-surface-active"
                             data-alt="Portrait of a law student"
-                            style='background-image: url("https://lh3.googleusercontent.com/aida-public/AB6AXuC0kTtxTMkUzTlrodPZvFju6q1uyt09ZkbgsI9yvDKEBAGeYUoe411zSbRCspzBtcM2b3aBJ-B_jztVEkktufgFu6bVwI5ORZ5BRTGRFJxGcqD1NCqoBiu7QT4PUPs2iDITdAXyGk3GSHQiRTRf6tF90ttBHf3QO_H5tzaaDNM53i34R0W4Ky5NDJcYnRBnDZMupupPaTv4pe0KRnlqpJ1AqcYd7F8nBfLagbZTZWlDdKQlNCn2GZghfGZfcaNV8rLXoQkknB19bKo");'>
+                            style='background-image: url("https://ui-avatars.com/api/?name={{ user_context.full_name }}&background=234842&color=13ecc8&font-size=0.4&bold=true");'>
                         </div>
                     </div>
                 </div>
@@ -188,7 +187,8 @@
                         <div class="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-6">
                             <div class="flex flex-col gap-2">
                                 <div class="flex items-center gap-3">
-                                    <h2 class="text-white text-3xl font-bold tracking-tight">Level {{ level }}: Junior Associate
+                                    <h2 class="text-white text-3xl font-bold tracking-tight">Level {{ stats.level }}: {{
+                                        stats.level_name }}
                                     </h2>
                                     <span class="material-symbols-outlined text-primary text-3xl">verified</span>
                                 </div>
@@ -197,14 +197,15 @@
                             </div>
                             <div class="flex flex-col gap-2 min-w-[300px]">
                                 <div class="flex justify-between items-end">
-                                    <span class="text-white font-medium text-sm">Progress to Senior Associate</span>
-                                    <span class="text-primary font-bold text-lg">75%</span>
+                                    <span class="text-white font-medium text-sm">Progress to Next Level</span>
+                                    <span class="text-primary font-bold text-lg">{{ stats.progress_percent }}%</span>
                                 </div>
                                 <div class="w-full h-3 bg-surface-active rounded-full overflow-hidden">
                                     <div class="h-full bg-primary shadow-[0_0_10px_rgba(19,236,200,0.5)] transition-all duration-1000 ease-out"
-                                        style="width: 75%"></div>
+                                        style="width: {{ stats.progress_percent }}%"></div>
                                 </div>
-                                <span class="text-xs text-text-secondary text-right">1,250 XP to level up</span>
+                                <span class="text-xs text-text-secondary text-right">{{ stats.to_next }} XP to level
+                                    up</span>
                             </div>
                         </div>
                     </section>
@@ -236,35 +237,35 @@
                                 <span class="text-xs text-text-secondary">+4 Avatars available</span>
                             </div>
                         </a>
-                        <!-- Card 2: Document Analysis -->
-                        <a href="/student/document-practice"
+                        <!-- Card 2: Document Drafting -->
+                        <a href="/student/document-drafting"
                             class="bg-surface-dark border border-surface-active rounded-xl p-6 flex flex-col hover:border-primary/50 transition-all cursor-pointer group hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-4">
                                 <div
                                     class="size-12 rounded-lg bg-[#234842] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                                    <span class="material-symbols-outlined text-2xl">find_in_page</span>
+                                    <span class="material-symbols-outlined text-2xl">edit_document</span>
                                 </div>
                             </div>
-                            <h3 class="text-white text-lg font-bold mb-2">Document Analysis</h3>
-                            <p class="text-text-secondary text-sm flex-1 mb-4">Review contracts and legal briefs to
-                                identify risks, errors, and key clauses within a time limit.</p>
+                            <h3 class="text-white text-lg font-bold mb-2">Document Drafting</h3>
+                            <p class="text-text-secondary text-sm flex-1 mb-4">Draft legal documents and receive AI
+                                evaluation on clarity, relevance, and ethics.</p>
                             <div class="w-full bg-surface-active rounded h-1.5 mt-auto mb-2">
                                 <div class="bg-primary/50 h-1.5 rounded w-1/3"></div>
                             </div>
-                            <p class="text-xs text-text-secondary">Daily Streak: 3 Days</p>
+                            <p class="text-xs text-text-secondary">Practice makes perfect</p>
                         </a>
-                        <!-- Card 3: Skill Feedback -->
-                        <a href="/student/feedback"
+                        <!-- Card 3: My Evaluation -->
+                        <a href="/student/evaluation"
                             class="bg-surface-dark border border-surface-active rounded-xl p-6 flex flex-col hover:border-primary/50 transition-all cursor-pointer group hover:-translate-y-1">
                             <div class="flex items-center justify-between mb-4">
                                 <div
                                     class="size-12 rounded-lg bg-[#234842] flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-background-dark transition-colors">
-                                    <span class="material-symbols-outlined text-2xl">insights</span>
+                                    <span class="material-symbols-outlined text-2xl">analytics</span>
                                 </div>
                             </div>
-                            <h3 class="text-white text-lg font-bold mb-2">Skill Evaluation</h3>
-                            <p class="text-text-secondary text-sm flex-1 mb-4">Get detailed AI-driven feedback on your
-                                negotiation, ethics, and research skills.</p>
+                            <h3 class="text-white text-lg font-bold mb-2">My Evaluation</h3>
+                            <p class="text-text-secondary text-sm flex-1 mb-4">View comprehensive assessment of your
+                                skills, strengths, and personalized recommendations.</p>
                             <div class="grid grid-cols-2 gap-2 mt-auto">
                                 <div class="bg-[#11221f] rounded p-2 text-center border border-surface-active">
                                     <p class="text-xs text-text-secondary">Ethics</p>

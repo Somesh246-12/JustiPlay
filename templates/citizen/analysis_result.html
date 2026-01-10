@@ -1,0 +1,267 @@
+<!-- templates/citizen/analysis_result.html -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Analysis Result - JustiPlay</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="/static/css/highlights.css">
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        'primary': '#13ecc8',
+                        'background-light': '#f6f8f8',
+                        'background-dark': '#10221f',
+                        'surface-dark': '#19332f',
+                        'border-dark': '#234842',
+                        'text-dim': '#92c9c0',
+                    },
+                    fontFamily: {
+                        'display': ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+
+        .glass-card {
+            background: rgba(25, 51, 47, 0.7);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(35, 72, 66, 0.5);
+        }
+
+        .risk-card {
+            transition: all 0.3s ease;
+        }
+
+        .risk-card:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Custom scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: rgba(35, 72, 66, 0.3);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: rgba(19, 236, 200, 0.5);
+            border-radius: 4px;
+        }
+
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: rgba(19, 236, 200, 0.7);
+        }
+    </style>
+</head>
+
+<body class="bg-background-dark text-white min-h-screen font-display">
+
+    <header class="w-full border-b border-border-dark bg-background-dark/50 backdrop-blur-md sticky top-0 z-50">
+        <div class="px-6 md:px-10 py-4 flex items-center justify-between max-w-7xl mx-auto w-full">
+            <div class="flex items-center gap-3 text-white">
+                <span class="material-symbols-outlined text-3xl text-primary">balance</span>
+                <div>
+                    <h2 class="text-xl font-bold">JustiPlay</h2>
+                    <p class="text-xs text-text-dim">Document Analysis Result</p>
+                </div>
+            </div>
+            <a href="/document/upload" class="text-sm font-medium text-text-dim hover:text-white transition">
+                ← Analyze Another
+            </a>
+        </div>
+    </header>
+
+    <main class="p-6 space-y-8 max-w-7xl mx-auto pb-20">
+
+        <!-- SUMMARY + RISK SIDE-BY-SIDE -->
+        <div class="grid md:grid-cols-2 gap-6">
+
+            <!-- LEFT: SUMMARY PANEL -->
+            <div class="glass-card rounded-xl p-6 space-y-4">
+                <div class="flex items-center gap-2 mb-4">
+                    <span class="text-2xl">📋</span>
+                    <h2 class="text-2xl font-bold">Summary</h2>
+                </div>
+
+                <div class="space-y-3">
+                    <div>
+                        <span class="text-sm font-semibold text-text-dim">Document Type</span>
+                        <p class="text-lg font-semibold text-white">{{ result.document_type }}</p>
+                    </div>
+
+                    <div class="border-t border-border-dark pt-3">
+                        <p class="text-sm leading-relaxed text-gray-300">
+                            {{ result.summary }}
+                        </p>
+                    </div>
+
+                    <!-- Overall Risk Badge -->
+                    <div class="border-t border-border-dark pt-3">
+                        <span class="text-sm font-semibold text-text-dim block mb-2">Overall Risk Assessment</span>
+                        <span class="inline-flex items-center px-4 py-2 text-base rounded-full font-bold
+                        {% if result.overall_risk == 'High' %}
+                            bg-red-500/20 text-red-300 border-2 border-red-500/50
+                        {% elif result.overall_risk == 'Medium' %}
+                            bg-yellow-500/20 text-yellow-300 border-2 border-yellow-500/50
+                        {% else %}
+                            bg-green-500/20 text-green-300 border-2 border-green-500/50
+                        {% endif %}
+                    ">
+                            {% if result.overall_risk == 'High' %}⚠️{% elif result.overall_risk == 'Medium' %}⚡{% else
+                            %}✅{% endif %}
+                            {{ result.overall_risk }} Risk
+                        </span>
+                    </div>
+
+                    <!-- Risk Drivers -->
+                    {% if result.risk_drivers %}
+                    <div class="border-t border-border-dark pt-3">
+                        <p class="text-sm font-semibold text-text-dim mb-2">Key Risk Drivers</p>
+                        <ul class="space-y-2">
+                            {% for d in result.risk_drivers %}
+                            <li class="flex items-start gap-2 text-sm text-gray-300">
+                                <span class="text-primary mt-0.5">▸</span>
+                                <span>{{ d }}</span>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+
+            <!-- RIGHT: RISK CARD PANEL -->
+            <div class="space-y-4">
+                <div class="flex items-center gap-2 mb-2">
+                    <span class="text-2xl">🔍</span>
+                    <h2 class="text-2xl font-bold">Clause Analysis</h2>
+                </div>
+
+                <div class="space-y-3 max-h-[600px] overflow-y-auto pr-2 custom-scrollbar">
+                    {% for c in result.clauses %}
+                    <div class="risk-card glass-card rounded-lg p-4 space-y-2">
+                        <!-- Card header -->
+                        <div class="flex items-start justify-between gap-3">
+                            <span class="font-bold text-base">{{ c.title }}</span>
+
+                            <span class="px-3 py-1 rounded-full text-xs font-bold whitespace-nowrap
+                            {% if c.risk == 'High' %}
+                                bg-red-500/20 text-red-300 border border-red-500/50
+                            {% elif c.risk == 'Medium' %}
+                                bg-yellow-500/20 text-yellow-300 border border-yellow-500/50
+                            {% else %}
+                                bg-green-500/20 text-green-300 border border-green-500/50
+                            {% endif %}
+                        ">
+                                {{ c.risk }}
+                            </span>
+                        </div>
+
+                        <!-- Clause excerpt -->
+                        {% if c.text %}
+                        <p class="text-xs text-gray-400 italic border-l-2 border-text-dim pl-3">
+                            "{{ c.text[:150] }}{% if c.text|length > 150 %}...{% endif %}"
+                        </p>
+                        {% endif %}
+
+                        <!-- Suggestion -->
+                        <div class="bg-background-dark/50 rounded-lg p-3 border border-border-dark">
+                            <p class="text-xs font-semibold text-primary mb-1">💡 Educational Insight</p>
+                            <p class="text-sm text-gray-300 leading-snug">
+                                {{ c.suggestion }}
+                            </p>
+                        </div>
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+
+        <!-- FULL DOCUMENT HIGHLIGHT VIEW -->
+        <div class="glass-card rounded-xl p-6">
+            <div class="flex items-center gap-2 mb-4">
+                <span class="text-2xl">📄</span>
+                <h2 class="text-2xl font-bold">Highlighted Document</h2>
+            </div>
+
+            <!-- Legend -->
+            <div class="flex flex-wrap gap-4 mb-4 text-sm">
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 bg-red-500/25 border-l-2 border-red-500 rounded"></span>
+                    <span class="text-text-dim">High Risk</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 bg-yellow-500/25 border-l-2 border-yellow-500 rounded"></span>
+                    <span class="text-text-dim">Medium Risk</span>
+                </div>
+                <div class="flex items-center gap-2">
+                    <span class="w-4 h-4 bg-green-500/25 border-l-2 border-green-500 rounded"></span>
+                    <span class="text-text-dim">Low Risk</span>
+                </div>
+            </div>
+
+            <div
+                class="bg-background-dark rounded-lg p-5 border border-border-dark max-h-[500px] overflow-y-auto custom-scrollbar">
+                <pre class="whitespace-pre-wrap text-sm leading-relaxed font-mono text-gray-300"
+                    id="doc-text">{{ highlighted_text | safe }}</pre>
+            </div>
+        </div>
+
+        <!-- EXPORT BUTTON -->
+        <div class="flex flex-col sm:flex-row items-center justify-between gap-4 glass-card rounded-xl p-6">
+            <div>
+                <h3 class="font-bold text-lg mb-1">Download Your Report</h3>
+                <p class="text-sm text-text-dim">Get a professional PDF report with full analysis</p>
+            </div>
+            <form action="/document/download_pdf/{{ doc_id }}" method="GET">
+                <button class="bg-gradient-to-r from-primary to-teal-400 text-background-dark font-bold px-8 py-3 rounded-lg 
+                           hover:from-primary/90 hover:to-teal-400/90 transition-all duration-300
+                           shadow-lg hover:shadow-xl transform hover:-translate-y-0.5 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                    </svg>
+                    Download PDF Report
+                </button>
+            </form>
+        </div>
+
+        <!-- DISCLAIMER -->
+        <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-lg p-4 text-center">
+            <p class="text-sm text-yellow-300 flex items-center justify-center gap-2">
+                <span class="text-lg">⚠️</span>
+                <strong>Not Legal Advice</strong> — For Educational & Awareness Use Only
+            </p>
+            <p class="text-xs text-text-dim mt-1">
+                This analysis does not create an attorney-client relationship. Consult a qualified legal professional
+                for specific advice.
+            </p>
+        </div>
+    </main>
+
+</body>
+
+</html>
